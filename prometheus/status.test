@@ -1,0 +1,24 @@
+---
+rule_files:
+  - "status.rule"
+evaluation_interval: 1m
+tests:
+  # ProcessRestarted
+  - interval: 5m
+    input_series:
+      - series: process_start_time_seconds{job="collaterals"}
+        values: 0 1 2 3 4 5
+    alert_rule_test:
+      # event should fire
+      - eval_time: 15m
+        alertname: ProcessRestarted
+        exp_alerts:
+          - exp_labels:
+              severity: warning
+              stage: testing
+              job: collaterals
+            exp_annotations:
+              summary: Too much Maker bot restarts
+              description: The Maker bot has been restarted for 3 times for the last 15 minutes
+
+# vim: set ts=2 sw=2 ft=yaml:

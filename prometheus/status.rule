@@ -1,0 +1,15 @@
+---
+groups:
+  - name: makerBotStatus
+    rules:
+
+      - alert: ProcessRestarted
+        expr: changes(process_start_time_seconds{job="collaterals"}[15m]) >= 3
+        labels:
+          stage: testing
+          severity: warning
+        annotations:
+          summary: Too much Maker bot restarts
+          description: The Maker bot has been restarted for {{ $value }} times for the last 15 minutes
+
+# vim: set ts=2 sw=2 ft=yaml:

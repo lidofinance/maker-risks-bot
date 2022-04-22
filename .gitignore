@@ -1,0 +1,10 @@
+__pycache__
+
+.direnv
+.envrc
+.env
+
+data/*
+!data/.gitkeep
+
+.idea

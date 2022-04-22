@@ -1,0 +1,22 @@
+---
+groups:
+  - name: makerBot
+    rules:
+
+      - alert: HighAmountCollateralsUnderRisk
+        expr: sum (maker_risks_collateral_percentage{zone=~"C|D|liquidation"}) > 15.0
+        for: 30m
+        labels:
+          severity: high
+        annotations:
+          summary: High percent of Maker collaterals in dangerous zone 🔥
+          description: It is {{ $value | printf "%.1f" }}% of collaterals on Maker in risky zone!
+
+      - alert: MakerCollateralsLiquidation
+        expr: maker_risks_collateral_percentage{zone="liquidation"} > 0
+        labels:
+          severity: high
+        annotations:
+          summary: Maker collaterals under liquidation has been detected!
+
+# vim: set ts=2 sw=2 ft=yaml:
