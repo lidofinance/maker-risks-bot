@@ -8,7 +8,7 @@ import pandas as pd
 
 from .analytics import calculate_values
 from .makerparser import parse
-from .metrics import COLLATERALS_ZONES_PERCENT
+from .metrics import COLLATERALS_ZONES_PERCENT, PARSER_LAST_FETCHED
 
 S15MIN = 15 * 60
 
@@ -41,6 +41,7 @@ class MakerBot:  # pylint: disable=too-few-public-methods
             try:
                 ledger = parse()
                 self._compute_metrics(ledger)
+                PARSER_LAST_FETCHED.set_to_current_time()
             except Exception as ex:  # pylint: disable=broad-except
                 self.log.error("An error occurred", exc_info=ex)
 

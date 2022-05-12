@@ -21,6 +21,7 @@ Risk zones defined as a ranges of collateral to loan ration
 #### Exposed metrics
 
 - `{}_collateral_percentage{zone=<zone>}` is computed percent of collaterals in the given zone
+- `{}_parser_last_fetched` is timestamp of the last metrics update
 
 #### Configuration
 
