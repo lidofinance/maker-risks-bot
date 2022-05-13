@@ -1,7 +1,7 @@
 [tool.poetry]
-name = "aave-collaterals-bot"
-description = "Prometheus+Alertmanager driven AAVE stETH collaterals monitoring bot"
-version = "1.0.0"
+name = "maker-risks-bot"
+description = "Prometheus+Alertmanager driven Maker wstETH & steCRV collaterals monitoring bot"
+version = "1.1.0"
 authors = [ "madlabman <madlabman@mail.ru>" ]
 license = "apache-2.0"
 homepage= "https://github.com/lidofinance/aave-collaterals-bot"
@@ -24,6 +24,7 @@ pylint = "^2.13.5"
 isort = "^5.10.1"
 
 [tool.pylint.format]
+disable = ["fixme"]
 max-line-length = 120
 max-module-lines = 1000
 good-names = "i,j,df,ex"

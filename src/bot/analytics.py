@@ -5,21 +5,20 @@ from typing import List
 
 import pandas as pd
 
-from .makerparser import RAY_DECIMALS, get_vat_stats
+from .ilks import MakerCollateral
+from .makerparser import RAY_DECIMALS, MakerParser
 
 RISK_LABELS = ["A", "B+", "B", "B-", "C", "D", "liquidation"]
 RISK_VALUES = [2.50, 1.75, 1.50, 1.25, 1.10, 1.00]
 
-DECIMALS_WSTETH = 18
 
-
-def prepare_data(df: pd.DataFrame) -> pd.DataFrame:
+def prepare_data(df: pd.DataFrame, ilk: MakerCollateral, parser: MakerParser) -> pd.DataFrame:
     """Transform raw data received"""
 
     df = df.copy()
 
-    df["ink"] = df["ink"] / pow(10, DECIMALS_WSTETH)
-    df["art"] = df["art"] / pow(10, DECIMALS_WSTETH)
+    df["ink"] = df["ink"] / pow(10, ilk.decimals)
+    df["art"] = df["art"] / pow(10, ilk.decimals)
     df.rename(columns={"art": "debt", "ink": "collateral"}, inplace=True)
 
     df.fillna(0, inplace=True)
@@ -27,7 +26,7 @@ def prepare_data(df: pd.DataFrame) -> pd.DataFrame:
 
     # rate => stablecoin debt multiplier (e.g. 1.015)
     # spot => maximum stablecoin allowed per unit of collateral (e.g. 1889.2)
-    (_, rate, spot, _, _) = get_vat_stats()
+    (_, rate, spot, _, _) = parser.get_vat_stats()
     rate = rate / pow(10, RAY_DECIMALS)
     spot = spot / pow(10, RAY_DECIMALS)
 
@@ -64,17 +63,17 @@ def get_distr(data) -> pd.DataFrame:
     """This function calculates and returns a pivot table by risk levels"""
 
     risk_distr = data.pivot_table(index="risk_rating", values=["collateral"], aggfunc=["sum", "count"])
-    risk_distr.columns = ["wstETH", "cnt"]
-    risk_distr["percent"] = (risk_distr["wstETH"] / risk_distr["wstETH"].sum()) * 100
+    risk_distr.columns = ["ilk", "cnt"]
+    risk_distr["percent"] = (risk_distr["ilk"] / risk_distr["ilk"].sum()) * 100
 
     return risk_distr
 
 
-def calculate_values(data: pd.DataFrame) -> dict[str, float]:
+def calculate_values(data: pd.DataFrame, ilk: MakerCollateral, parser: MakerParser) -> dict[str, float]:
     """Calculate risk distribution.
     Almost as is from related jupyter notebook."""
 
-    df = prepare_data(data)
+    df = prepare_data(data, ilk, parser)
 
     df = get_risks(df, RISK_VALUES)
     risk_distr = get_distr(df)

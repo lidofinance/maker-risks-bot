@@ -12,8 +12,18 @@ services:
       EXPORTER_PORT:
     restart: unless-stopped
 
+  grafana:
+    image: grafana/grafana:8.5.2
+    restart: unless-stopped
+    volumes:
+      - ./grafana/datasources.yml:/etc/grafana/provisioning/datasources/default.yml
+      - ./grafana/dashboard.json:/etc/grafana/provisioning/dashboards/default.json
+      - ./grafana/dashboards.yml:/etc/grafana/provisioning/dashboards/dashboards.yml
+    ports:
+      - 3000:3000
+
   prometheus:
-    image: prom/prometheus
+    image: prom/prometheus:v2.35.0
     ports:
       - 9090:9090
     volumes:
@@ -22,7 +32,7 @@ services:
     restart: unless-stopped
 
   alertmanager:
-    image: prom/alertmanager
+    image: prom/alertmanager:v0.24.0
     volumes:
       - ./alertmanager:/etc/alertmanager
     restart: unless-stopped

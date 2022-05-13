@@ -3,7 +3,10 @@
     "list": [
       {
         "builtIn": 1,
-        "datasource": "-- Grafana --",
+        "datasource": {
+          "type": "datasource",
+          "uid": "grafana"
+        },
         "enable": true,
         "hide": true,
         "iconColor": "rgba(0, 211, 255, 1)",
@@ -21,7 +24,6 @@
   "editable": true,
   "fiscalYearStartMonth": 0,
   "graphTooltip": 0,
-  "id": 50,
   "links": [],
   "liveNow": false,
   "panels": [
@@ -33,9 +35,11 @@
       "fieldConfig": {
         "defaults": {
           "color": {
-            "mode": "fixed"
+            "mode": "thresholds"
           },
           "mappings": [],
+          "max": 99,
+          "min": 0,
           "thresholds": {
             "mode": "absolute",
             "steps": [
@@ -44,26 +48,31 @@
                 "value": null
               },
               {
-                "color": "red",
-                "value": 80
+                "color": "super-light-orange",
+                "value": 15
+              },
+              {
+                "color": "orange",
+                "value": 25
+              },
+              {
+                "color": "semi-dark-red",
+                "value": 50
               }
             ]
           },
-          "unit": "dateTimeAsIsoNoDateIfToday"
+          "unit": "percent"
         },
         "overrides": []
       },
       "gridPos": {
         "h": 8,
-        "w": 12,
+        "w": 6,
         "x": 0,
         "y": 0
       },
-      "id": 12,
+      "id": 2,
       "options": {
-        "colorMode": "value",
-        "graphMode": "area",
-        "justifyMode": "auto",
         "orientation": "auto",
         "reduceOptions": {
           "calcs": [
@@ -72,25 +81,26 @@
           "fields": "",
           "values": false
         },
-        "textMode": "auto"
+        "showThresholdLabels": false,
+        "showThresholdMarkers": true,
+        "text": {}
       },
-      "pluginVersion": "8.4.6",
+      "pluginVersion": "8.5.2",
       "targets": [
         {
           "datasource": {
             "type": "prometheus",
             "uid": "Ggj6dYQ7z"
           },
-          "exemplar": false,
-          "expr": "max_over_time(maker_risks_parser_last_fetched[1d]) * 1000",
-          "instant": true,
+          "exemplar": true,
+          "expr": "sum(maker_risks_collateral_percentage{zone=~\"C|D|liquidation\", ilk=\"wstETH\"})",
           "interval": "",
           "legendFormat": "",
           "refId": "A"
         }
       ],
-      "title": "Last updated at",
-      "type": "stat"
+      "title": "Maker wstETH risks",
+      "type": "gauge"
     },
     {
       "datasource": {
@@ -132,11 +142,11 @@
       },
       "gridPos": {
         "h": 8,
-        "w": 12,
-        "x": 12,
+        "w": 6,
+        "x": 6,
         "y": 0
       },
-      "id": 2,
+      "id": 13,
       "options": {
         "orientation": "auto",
         "reduceOptions": {
@@ -150,7 +160,7 @@
         "showThresholdMarkers": true,
         "text": {}
       },
-      "pluginVersion": "8.4.6",
+      "pluginVersion": "8.5.2",
       "targets": [
         {
           "datasource": {
@@ -158,13 +168,13 @@
             "uid": "Ggj6dYQ7z"
           },
           "exemplar": true,
-          "expr": "sum(maker_risks_collateral_percentage{zone=~\"C|D|liquidation\"})",
+          "expr": "sum(maker_risks_collateral_percentage{zone=~\"C|D|liquidation\", ilk=\"steCRV\"})",
           "interval": "",
           "legendFormat": "",
           "refId": "A"
         }
       ],
-      "title": "Maker wstETH risks",
+      "title": "Maker steCRV risks",
       "type": "gauge"
     },
     {
@@ -172,7 +182,75 @@
         "type": "prometheus",
         "uid": "Ggj6dYQ7z"
       },
-      "description": "Percent of collateral within 1.1 .. 1.25 ratio range",
+      "fieldConfig": {
+        "defaults": {
+          "color": {
+            "mode": "fixed"
+          },
+          "mappings": [],
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "green",
+                "value": null
+              },
+              {
+                "color": "red",
+                "value": 80
+              }
+            ]
+          },
+          "unit": "dateTimeAsIsoNoDateIfToday"
+        },
+        "overrides": []
+      },
+      "gridPos": {
+        "h": 8,
+        "w": 12,
+        "x": 12,
+        "y": 0
+      },
+      "id": 12,
+      "options": {
+        "colorMode": "value",
+        "graphMode": "area",
+        "justifyMode": "auto",
+        "orientation": "auto",
+        "reduceOptions": {
+          "calcs": [
+            "lastNotNull"
+          ],
+          "fields": "",
+          "values": false
+        },
+        "textMode": "auto"
+      },
+      "pluginVersion": "8.5.2",
+      "targets": [
+        {
+          "datasource": {
+            "type": "prometheus",
+            "uid": "Ggj6dYQ7z"
+          },
+          "editorMode": "code",
+          "exemplar": false,
+          "expr": "max_over_time(maker_risks_parser_last_fetched[1d]) * 1000",
+          "instant": true,
+          "interval": "",
+          "legendFormat": "{{ilk}}",
+          "refId": "A"
+        }
+      ],
+      "title": "Last updated at",
+      "type": "stat"
+    },
+    {
+      "datasource": {
+        "type": "prometheus",
+        "uid": "Ggj6dYQ7z"
+      },
+      "description": "Collateral is under risk in the case of collateral to loan ratio is below of 1.6",
       "fieldConfig": {
         "defaults": {
           "color": {
@@ -208,6 +286,7 @@
           },
           "mappings": [],
           "max": 60,
+          "min": 0,
           "thresholds": {
             "mode": "absolute",
             "steps": [
@@ -216,12 +295,12 @@
                 "value": null
               },
               {
-                "color": "super-light-orange",
+                "color": "light-orange",
                 "value": 15
               },
               {
                 "color": "semi-dark-red",
-                "value": 25
+                "value": 50
               }
             ]
           },
@@ -235,7 +314,7 @@
         "x": 0,
         "y": 8
       },
-      "id": 8,
+      "id": 4,
       "options": {
         "legend": {
           "calcs": [],
@@ -254,13 +333,13 @@
             "uid": "Ggj6dYQ7z"
           },
           "exemplar": true,
-          "expr": "maker_risks_collateral_percentage{zone=\"C\"}",
+          "expr": "sum(maker_risks_collateral_percentage{zone=~\"C|D|liquidation\", ilk=\"wstETH\"})",
           "interval": "",
-          "legendFormat": "{{zone}}",
+          "legendFormat": "C+D+liquidation",
           "refId": "A"
         }
       ],
-      "title": "wstETH in C %",
+      "title": "Maker wstETH under risk % history",
       "type": "timeseries"
     },
     {
@@ -332,7 +411,7 @@
         "x": 12,
         "y": 8
       },
-      "id": 4,
+      "id": 14,
       "options": {
         "legend": {
           "calcs": [],
@@ -351,13 +430,13 @@
             "uid": "Ggj6dYQ7z"
           },
           "exemplar": true,
-          "expr": "sum(maker_risks_collateral_percentage{zone=~\"C|D|liquidation\"})",
+          "expr": "sum(maker_risks_collateral_percentage{zone=~\"C|D|liquidation\", ilk=\"steCRV\"})",
           "interval": "",
           "legendFormat": "C+D+liquidation",
           "refId": "A"
         }
       ],
-      "title": "Maker wstETH under risk % history",
+      "title": "Maker steCRV under risk % history",
       "type": "timeseries"
     },
     {
@@ -365,25 +444,27 @@
         "type": "prometheus",
         "uid": "Ggj6dYQ7z"
       },
-      "description": "Percent of collateral within 1.0 .. 1.1 ratio range",
       "fieldConfig": {
         "defaults": {
           "color": {
-            "mode": "thresholds"
+            "mode": "palette-classic"
           },
           "custom": {
             "axisLabel": "",
             "axisPlacement": "auto",
             "barAlignment": 0,
             "drawStyle": "line",
-            "fillOpacity": 0,
-            "gradientMode": "none",
+            "fillOpacity": 20,
+            "gradientMode": "opacity",
             "hideFrom": {
               "legend": false,
               "tooltip": false,
               "viz": false
             },
-            "lineInterpolation": "linear",
+            "lineInterpolation": "smooth",
+            "lineStyle": {
+              "fill": "solid"
+            },
             "lineWidth": 2,
             "pointSize": 5,
             "scaleDistribution": {
@@ -396,31 +477,83 @@
               "mode": "none"
             },
             "thresholdsStyle": {
-              "mode": "line+area"
+              "mode": "off"
             }
           },
           "mappings": [],
-          "max": 40,
           "thresholds": {
             "mode": "absolute",
             "steps": [
               {
                 "color": "green",
                 "value": null
-              },
-              {
-                "color": "super-light-orange",
-                "value": 5
-              },
-              {
-                "color": "semi-dark-red",
-                "value": 15
               }
             ]
           },
           "unit": "percent"
         },
-        "overrides": []
+        "overrides": [
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "C"
+            },
+            "properties": [
+              {
+                "id": "color",
+                "value": {
+                  "fixedColor": "#E02F44",
+                  "mode": "fixed"
+                }
+              }
+            ]
+          },
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "B+"
+            },
+            "properties": [
+              {
+                "id": "color",
+                "value": {
+                  "fixedColor": "blue",
+                  "mode": "fixed"
+                }
+              }
+            ]
+          },
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "liquidation"
+            },
+            "properties": [
+              {
+                "id": "color",
+                "value": {
+                  "fixedColor": "text",
+                  "mode": "fixed"
+                }
+              }
+            ]
+          },
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "D"
+            },
+            "properties": [
+              {
+                "id": "color",
+                "value": {
+                  "fixedColor": "semi-dark-purple",
+                  "mode": "fixed"
+                }
+              }
+            ]
+          }
+        ]
       },
       "gridPos": {
         "h": 8,
@@ -428,7 +561,7 @@
         "x": 0,
         "y": 16
       },
-      "id": 10,
+      "id": 6,
       "options": {
         "legend": {
           "calcs": [],
@@ -447,13 +580,13 @@
             "uid": "Ggj6dYQ7z"
           },
           "exemplar": true,
-          "expr": "maker_risks_collateral_percentage{zone=\"D\"}",
+          "expr": "maker_risks_collateral_percentage{ilk=\"wstETH\"}",
           "interval": "",
           "legendFormat": "{{zone}}",
           "refId": "A"
         }
       ],
-      "title": "wstETH in D %",
+      "title": "wstETH zones overview",
       "type": "timeseries"
     },
     {
@@ -578,7 +711,7 @@
         "x": 12,
         "y": 16
       },
-      "id": 6,
+      "id": 15,
       "options": {
         "legend": {
           "calcs": [],
@@ -597,17 +730,401 @@
             "uid": "Ggj6dYQ7z"
           },
           "exemplar": true,
-          "expr": "maker_risks_collateral_percentage",
+          "expr": "maker_risks_collateral_percentage{ilk=\"steCRV\"}",
           "interval": "",
           "legendFormat": "{{zone}}",
           "refId": "A"
         }
       ],
-      "title": "wstETH zones overview",
+      "title": "steCRV zones overview",
+      "type": "timeseries"
+    },
+    {
+      "datasource": {
+        "type": "prometheus",
+        "uid": "Ggj6dYQ7z"
+      },
+      "description": "Percent of collateral within 1.1 .. 1.25 ratio range",
+      "fieldConfig": {
+        "defaults": {
+          "color": {
+            "mode": "thresholds"
+          },
+          "custom": {
+            "axisLabel": "",
+            "axisPlacement": "auto",
+            "barAlignment": 0,
+            "drawStyle": "line",
+            "fillOpacity": 0,
+            "gradientMode": "none",
+            "hideFrom": {
+              "legend": false,
+              "tooltip": false,
+              "viz": false
+            },
+            "lineInterpolation": "linear",
+            "lineWidth": 2,
+            "pointSize": 5,
+            "scaleDistribution": {
+              "type": "linear"
+            },
+            "showPoints": "auto",
+            "spanNulls": false,
+            "stacking": {
+              "group": "A",
+              "mode": "none"
+            },
+            "thresholdsStyle": {
+              "mode": "line+area"
+            }
+          },
+          "mappings": [],
+          "max": 60,
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "green",
+                "value": null
+              },
+              {
+                "color": "super-light-orange",
+                "value": 15
+              },
+              {
+                "color": "semi-dark-red",
+                "value": 25
+              }
+            ]
+          },
+          "unit": "percent"
+        },
+        "overrides": []
+      },
+      "gridPos": {
+        "h": 8,
+        "w": 12,
+        "x": 0,
+        "y": 24
+      },
+      "id": 8,
+      "options": {
+        "legend": {
+          "calcs": [],
+          "displayMode": "list",
+          "placement": "bottom"
+        },
+        "tooltip": {
+          "mode": "single",
+          "sort": "none"
+        }
+      },
+      "targets": [
+        {
+          "datasource": {
+            "type": "prometheus",
+            "uid": "Ggj6dYQ7z"
+          },
+          "exemplar": true,
+          "expr": "maker_risks_collateral_percentage{zone=\"C\", ilk=\"wstETH\"}",
+          "interval": "",
+          "legendFormat": "{{zone}}",
+          "refId": "A"
+        }
+      ],
+      "title": "wstETH in C %",
+      "type": "timeseries"
+    },
+    {
+      "datasource": {
+        "type": "prometheus",
+        "uid": "Ggj6dYQ7z"
+      },
+      "description": "Percent of collateral within 1.1 .. 1.25 ratio range",
+      "fieldConfig": {
+        "defaults": {
+          "color": {
+            "mode": "thresholds"
+          },
+          "custom": {
+            "axisLabel": "",
+            "axisPlacement": "auto",
+            "barAlignment": 0,
+            "drawStyle": "line",
+            "fillOpacity": 0,
+            "gradientMode": "none",
+            "hideFrom": {
+              "legend": false,
+              "tooltip": false,
+              "viz": false
+            },
+            "lineInterpolation": "linear",
+            "lineWidth": 2,
+            "pointSize": 5,
+            "scaleDistribution": {
+              "type": "linear"
+            },
+            "showPoints": "auto",
+            "spanNulls": false,
+            "stacking": {
+              "group": "A",
+              "mode": "none"
+            },
+            "thresholdsStyle": {
+              "mode": "line+area"
+            }
+          },
+          "mappings": [],
+          "max": 60,
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "green",
+                "value": null
+              },
+              {
+                "color": "super-light-orange",
+                "value": 15
+              },
+              {
+                "color": "semi-dark-red",
+                "value": 25
+              }
+            ]
+          },
+          "unit": "percent"
+        },
+        "overrides": []
+      },
+      "gridPos": {
+        "h": 8,
+        "w": 12,
+        "x": 12,
+        "y": 24
+      },
+      "id": 16,
+      "options": {
+        "legend": {
+          "calcs": [],
+          "displayMode": "list",
+          "placement": "bottom"
+        },
+        "tooltip": {
+          "mode": "single",
+          "sort": "none"
+        }
+      },
+      "targets": [
+        {
+          "datasource": {
+            "type": "prometheus",
+            "uid": "Ggj6dYQ7z"
+          },
+          "exemplar": true,
+          "expr": "maker_risks_collateral_percentage{zone=\"C\", ilk=\"steCRV\"}",
+          "interval": "",
+          "legendFormat": "{{zone}}",
+          "refId": "A"
+        }
+      ],
+      "title": "steCRV in C %",
+      "type": "timeseries"
+    },
+    {
+      "datasource": {
+        "type": "prometheus",
+        "uid": "Ggj6dYQ7z"
+      },
+      "description": "Percent of collateral within 1.0 .. 1.1 ratio range",
+      "fieldConfig": {
+        "defaults": {
+          "color": {
+            "mode": "thresholds"
+          },
+          "custom": {
+            "axisLabel": "",
+            "axisPlacement": "auto",
+            "barAlignment": 0,
+            "drawStyle": "line",
+            "fillOpacity": 0,
+            "gradientMode": "none",
+            "hideFrom": {
+              "legend": false,
+              "tooltip": false,
+              "viz": false
+            },
+            "lineInterpolation": "linear",
+            "lineWidth": 2,
+            "pointSize": 5,
+            "scaleDistribution": {
+              "type": "linear"
+            },
+            "showPoints": "auto",
+            "spanNulls": false,
+            "stacking": {
+              "group": "A",
+              "mode": "none"
+            },
+            "thresholdsStyle": {
+              "mode": "line+area"
+            }
+          },
+          "mappings": [],
+          "max": 40,
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "green",
+                "value": null
+              },
+              {
+                "color": "super-light-orange",
+                "value": 5
+              },
+              {
+                "color": "semi-dark-red",
+                "value": 15
+              }
+            ]
+          },
+          "unit": "percent"
+        },
+        "overrides": []
+      },
+      "gridPos": {
+        "h": 8,
+        "w": 12,
+        "x": 0,
+        "y": 32
+      },
+      "id": 10,
+      "options": {
+        "legend": {
+          "calcs": [],
+          "displayMode": "list",
+          "placement": "bottom"
+        },
+        "tooltip": {
+          "mode": "single",
+          "sort": "none"
+        }
+      },
+      "targets": [
+        {
+          "datasource": {
+            "type": "prometheus",
+            "uid": "Ggj6dYQ7z"
+          },
+          "exemplar": true,
+          "expr": "maker_risks_collateral_percentage{zone=\"D\", ilk=\"wstETH\"}",
+          "interval": "",
+          "legendFormat": "{{zone}}",
+          "refId": "A"
+        }
+      ],
+      "title": "wstETH in D %",
+      "type": "timeseries"
+    },
+    {
+      "datasource": {
+        "type": "prometheus",
+        "uid": "Ggj6dYQ7z"
+      },
+      "description": "Percent of collateral within 1.0 .. 1.1 ratio range",
+      "fieldConfig": {
+        "defaults": {
+          "color": {
+            "mode": "thresholds"
+          },
+          "custom": {
+            "axisLabel": "",
+            "axisPlacement": "auto",
+            "barAlignment": 0,
+            "drawStyle": "line",
+            "fillOpacity": 0,
+            "gradientMode": "none",
+            "hideFrom": {
+              "legend": false,
+              "tooltip": false,
+              "viz": false
+            },
+            "lineInterpolation": "linear",
+            "lineWidth": 2,
+            "pointSize": 5,
+            "scaleDistribution": {
+              "type": "linear"
+            },
+            "showPoints": "auto",
+            "spanNulls": false,
+            "stacking": {
+              "group": "A",
+              "mode": "none"
+            },
+            "thresholdsStyle": {
+              "mode": "line+area"
+            }
+          },
+          "mappings": [],
+          "max": 40,
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "green",
+                "value": null
+              },
+              {
+                "color": "super-light-orange",
+                "value": 5
+              },
+              {
+                "color": "semi-dark-red",
+                "value": 15
+              }
+            ]
+          },
+          "unit": "percent"
+        },
+        "overrides": []
+      },
+      "gridPos": {
+        "h": 8,
+        "w": 12,
+        "x": 12,
+        "y": 32
+      },
+      "id": 17,
+      "options": {
+        "legend": {
+          "calcs": [],
+          "displayMode": "list",
+          "placement": "bottom"
+        },
+        "tooltip": {
+          "mode": "single",
+          "sort": "none"
+        }
+      },
+      "targets": [
+        {
+          "datasource": {
+            "type": "prometheus",
+            "uid": "Ggj6dYQ7z"
+          },
+          "exemplar": true,
+          "expr": "maker_risks_collateral_percentage{zone=\"D\", ilk=\"steCRV\"}",
+          "interval": "",
+          "legendFormat": "{{zone}}",
+          "refId": "A"
+        }
+      ],
+      "title": "steCRV in D %",
       "type": "timeseries"
     }
   ],
-  "schemaVersion": 35,
+  "schemaVersion": 36,
   "style": "dark",
   "tags": [],
   "templating": {
@@ -621,6 +1138,6 @@
   "timezone": "",
   "title": "Maker",
   "uid": "STQ5KYQ7k",
-  "version": 2,
+  "version": 1,
   "weekStart": ""
 }

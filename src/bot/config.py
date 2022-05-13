@@ -33,12 +33,7 @@ def getenv(name: str, astype: Type[T] = str, default: T = D, required: bool = Fa
         try:
             return astype(os.getenv(name))
         except (TypeError, ValueError) as ex:
-            log.warning(
-                "Failed to parse %s environment variable, fallback to %s",
-                name,
-                f"{default=}",
-                exc_info=ex,
-            )
+            log.warning("Failed to parse %s environment variable, fallback to default=%s", name, default, exc_info=ex)
 
     return default
 
@@ -53,8 +48,13 @@ if "wss://" in NODE_ENDPOINT:
 
 # === Optional ===
 
-FLIPSIDE_ENDPOINT = getenv(
-    "FLIPSIDE_ENDPOINT",
+FLIPSIDE_ENDPOINT_WSTETH = getenv(
+    "FLIPSIDE_ENDPOINT_WSTETH",
     default="https://api.flipsidecrypto.com/api/v2/queries/ee1e5abe-6d5f-45d9-87b4-9ff85cc914cb/data/latest",
 )
+FLIPSIDE_ENDPOINT_STECRV = getenv(
+    "FLIPSIDE_ENDPOINT_STECRV",
+    default="https://api.flipsidecrypto.com/api/v2/queries/09672095-b60b-4cc0-bc73-594a6ff98853/data/latest",
+)
 EXPORTER_PORT = getenv("EXPORTER_PORT", int, default=8080)
+PARSE_INTERVAL = getenv("PARSE_INTERVAL", int, 15 * 60)  # 15 min
