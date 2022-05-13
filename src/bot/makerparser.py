@@ -7,10 +7,9 @@ import pandas as pd
 import requests
 from unsync import unsync
 
-from bot.config import FLIPSIDE_ENDPOINT_STECRV, FLIPSIDE_ENDPOINT_WSTETH
-from bot.ilks import STECRV, WSTETH, MakerCollateral
-
+from .config import FLIPSIDE_ENDPOINT_STECRV, FLIPSIDE_ENDPOINT_WSTETH
 from .eth import CDP_MANAGER, CDP_REGISTRY, CROPPER, VAT
+from .ilks import STECRV, WSTETH, MakerCollateral
 
 RAY_DECIMALS = 27
 RAD_DECIMALS = 45
