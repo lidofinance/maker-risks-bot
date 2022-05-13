@@ -16,9 +16,7 @@ services:
     image: grafana/grafana:8.5.2
     restart: unless-stopped
     volumes:
-      - ./grafana/datasources.yml:/etc/grafana/provisioning/datasources/default.yml
-      - ./grafana/dashboard.json:/etc/grafana/provisioning/dashboards/default.json
-      - ./grafana/dashboards.yml:/etc/grafana/provisioning/dashboards/dashboards.yml
+      - ./grafana:/etc/grafana/provisioning
     ports:
       - 3000:3000
 
