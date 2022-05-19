@@ -6,7 +6,7 @@ from typing import Any, Type, TypeAlias
 
 logging_handler = logging.StreamHandler()
 
-if "LOG_TO_JSON" in os.environ:
+if os.getenv("LOG_FORMAT", "simple") == "json":
     from pythonjsonlogger import jsonlogger
 
     formatter = jsonlogger.JsonFormatter("%(asctime)%(levelname)%(name)%(message)")
@@ -46,15 +46,10 @@ if "wss://" in NODE_ENDPOINT:
     # doesn't work in the current flow. Magic asyncio fails happen.
     raise RuntimeError("Only http[s] Web3 provider endpoint supported")
 
+MAKER_DATAAPI_USERNAME = getenv("MAKER_DATAAPI_USERNAME", required=True)
+MAKER_DATAAPI_PASSWORD = getenv("MAKER_DATAAPI_PASSWORD", required=True)
+
 # === Optional ===
 
-FLIPSIDE_ENDPOINT_WSTETH = getenv(
-    "FLIPSIDE_ENDPOINT_WSTETH",
-    default="https://api.flipsidecrypto.com/api/v2/queries/ee1e5abe-6d5f-45d9-87b4-9ff85cc914cb/data/latest",
-)
-FLIPSIDE_ENDPOINT_STECRV = getenv(
-    "FLIPSIDE_ENDPOINT_STECRV",
-    default="https://api.flipsidecrypto.com/api/v2/queries/09672095-b60b-4cc0-bc73-594a6ff98853/data/latest",
-)
-EXPORTER_PORT = getenv("EXPORTER_PORT", int, default=8080)
 PARSE_INTERVAL = getenv("PARSE_INTERVAL", int, 15 * 60)  # 15 min
+EXPORTER_PORT = getenv("EXPORTER_PORT", int, default=8080)
