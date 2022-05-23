@@ -4,9 +4,18 @@ from prometheus_client import Gauge
 
 PREFIX = "maker_risks"
 
-COLLATERALS_ZONES_PERCENT_NAME = f"{PREFIX}_collateral_percentage"
-COLLATERALS_ZONES_PERCENT_HELP = "Maker collaterals percentage distribution"
-COLLATERALS_ZONES_PERCENT = Gauge(COLLATERALS_ZONES_PERCENT_NAME, COLLATERALS_ZONES_PERCENT_HELP, ("ilk", "zone"))
-PARSER_LAST_FETCHED_NAME = f"{PREFIX}_parser_last_fetched"
-PARSER_LAST_FETCHED_HELP = "Last one successful parsing cycle completion timestamp"
-PARSER_LAST_FETCHED = Gauge(PARSER_LAST_FETCHED_NAME, PARSER_LAST_FETCHED_HELP, ("ilk",))
+COLLATERALS_ZONES_PERCENT = Gauge(
+    f"{PREFIX}_collateral_percentage",
+    "Maker collaterals percentage distribution",
+    ("ilk", "zone"),
+)
+PARSER_LAST_FETCHED = Gauge(
+    f"{PREFIX}_parser_last_fetched",
+    "Last one successful parsing cycle completion timestamp",
+    ("ilk",),
+)
+PARSER_LAST_BLOCK = Gauge(
+    f"{PREFIX}_parser_last_block",
+    "Last block available to fetch from Maker database",
+    ("ilk",),
+)
