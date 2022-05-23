@@ -5,20 +5,20 @@ from typing import List
 
 import pandas as pd
 
-from .ilks import MakerCollateral
-from .makerparser import RAY_DECIMALS, MakerParser
+from .consts import RAY_DECIMALS
+from .parsers import BaseParser
 
 RISK_LABELS = ["A", "B+", "B", "B-", "C", "D", "liquidation"]
 RISK_VALUES = [2.50, 1.75, 1.50, 1.25, 1.10, 1.00]
 
 
-def prepare_data(df: pd.DataFrame, ilk: MakerCollateral, parser: MakerParser) -> pd.DataFrame:
+def prepare_data(df: pd.DataFrame, parser: BaseParser) -> pd.DataFrame:
     """Transform raw data received"""
 
     df = df.copy()
 
-    df["ink"] = df["ink"] / pow(10, ilk.decimals)
-    df["art"] = df["art"] / pow(10, ilk.decimals)
+    df["ink"] = df["ink"] / pow(10, parser.asset.decimals)
+    df["art"] = df["art"] / pow(10, parser.asset.decimals)
     df.rename(columns={"art": "debt", "ink": "collateral"}, inplace=True)
 
     df.fillna(0, inplace=True)
@@ -69,11 +69,11 @@ def get_distr(data) -> pd.DataFrame:
     return risk_distr
 
 
-def calculate_values(data: pd.DataFrame, ilk: MakerCollateral, parser: MakerParser) -> dict[str, float]:
+def calculate_values(data: pd.DataFrame, parser: BaseParser) -> dict[str, float]:
     """Calculate risk distribution.
     Almost as is from related jupyter notebook."""
 
-    df = prepare_data(data, ilk, parser)
+    df = prepare_data(data, parser)
 
     df = get_risks(df, RISK_VALUES)
     risk_distr = get_distr(df)

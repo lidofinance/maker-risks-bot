@@ -8,8 +8,9 @@ services:
     command: "main.py"
     environment:
       NODE_ENDPOINT:
-      FLIPSIDE_ENDPOINT:
       EXPORTER_PORT:
+      MAKER_DATAAPI_USERNAME:
+      MAKER_DATAAPI_PASSWORD:
     restart: unless-stopped
 
   grafana:
