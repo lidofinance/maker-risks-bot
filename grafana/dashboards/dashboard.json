@@ -28,10 +28,7 @@
   "liveNow": false,
   "panels": [
     {
-      "datasource": {
-        "type": "prometheus",
-        "uid": "Ggj6dYQ7z"
-      },
+      "datasource": null,
       "fieldConfig": {
         "defaults": {
           "color": {
@@ -89,10 +86,7 @@
       "pluginVersion": "8.5.2",
       "targets": [
         {
-          "datasource": {
-            "type": "prometheus",
-            "uid": "Ggj6dYQ7z"
-          },
+          "datasource": null,
           "exemplar": true,
           "expr": "sum(maker_risks_collateral_percentage{zone=~\"C|D|liquidation\", ilk=\"wstETH_A\"})",
           "interval": "",
@@ -104,10 +98,7 @@
       "type": "gauge"
     },
     {
-      "datasource": {
-        "type": "prometheus",
-        "uid": "Ggj6dYQ7z"
-      },
+      "datasource": null,
       "fieldConfig": {
         "defaults": {
           "color": {
@@ -165,10 +156,7 @@
       "pluginVersion": "8.5.2",
       "targets": [
         {
-          "datasource": {
-            "type": "prometheus",
-            "uid": "Ggj6dYQ7z"
-          },
+          "datasource": null,
           "exemplar": true,
           "expr": "sum(maker_risks_collateral_percentage{zone=~\"C|D|liquidation\", ilk=\"wstETH_B\"})",
           "interval": "",
@@ -180,10 +168,7 @@
       "type": "gauge"
     },
     {
-      "datasource": {
-        "type": "prometheus",
-        "uid": "Ggj6dYQ7z"
-      },
+      "datasource": null,
       "fieldConfig": {
         "defaults": {
           "color": {
@@ -241,10 +226,7 @@
       "pluginVersion": "8.5.2",
       "targets": [
         {
-          "datasource": {
-            "type": "prometheus",
-            "uid": "Ggj6dYQ7z"
-          },
+          "datasource": null,
           "exemplar": true,
           "expr": "sum(maker_risks_collateral_percentage{zone=~\"C|D|liquidation\", ilk=\"steCRV_A\"})",
           "interval": "",
@@ -256,10 +238,7 @@
       "type": "gauge"
     },
     {
-      "datasource": {
-        "type": "prometheus",
-        "uid": "Ggj6dYQ7z"
-      },
+      "datasource": null,
       "fieldConfig": {
         "defaults": {
           "color": {
@@ -307,10 +286,7 @@
       "pluginVersion": "8.5.2",
       "targets": [
         {
-          "datasource": {
-            "type": "prometheus",
-            "uid": "Ggj6dYQ7z"
-          },
+          "datasource": null,
           "editorMode": "code",
           "exemplar": false,
           "expr": "max_over_time(maker_risks_parser_last_fetched[1d]) * 1000",
@@ -324,10 +300,7 @@
       "type": "stat"
     },
     {
-      "datasource": {
-        "type": "prometheus",
-        "uid": "Ggj6dYQ7z"
-      },
+      "datasource": null,
       "fieldConfig": {
         "defaults": {
           "color": {
@@ -375,10 +348,7 @@
       "pluginVersion": "8.5.2",
       "targets": [
         {
-          "datasource": {
-            "type": "prometheus",
-            "uid": "Ggj6dYQ7z"
-          },
+          "datasource": null,
           "editorMode": "code",
           "exemplar": false,
           "expr": "max_over_time(maker_risks_parser_last_block[1d])",
@@ -392,10 +362,7 @@
       "type": "stat"
     },
     {
-      "datasource": {
-        "type": "prometheus",
-        "uid": "Ggj6dYQ7z"
-      },
+      "datasource": null,
       "description": "Collateral is under risk in the case of collateral to loan ratio is below of 1.6",
       "fieldConfig": {
         "defaults": {
@@ -474,10 +441,7 @@
       },
       "targets": [
         {
-          "datasource": {
-            "type": "prometheus",
-            "uid": "Ggj6dYQ7z"
-          },
+          "datasource": null,
           "exemplar": true,
           "expr": "sum(maker_risks_collateral_percentage{zone=~\"C|D|liquidation\", ilk=\"wstETH_A\"})",
           "interval": "",
@@ -489,10 +453,7 @@
       "type": "timeseries"
     },
     {
-      "datasource": {
-        "type": "prometheus",
-        "uid": "Ggj6dYQ7z"
-      },
+      "datasource": null,
       "description": "Collateral is under risk in the case of collateral to loan ratio is below of 1.6",
       "fieldConfig": {
         "defaults": {
@@ -571,10 +532,7 @@
       },
       "targets": [
         {
-          "datasource": {
-            "type": "prometheus",
-            "uid": "Ggj6dYQ7z"
-          },
+          "datasource": null,
           "exemplar": true,
           "expr": "sum(maker_risks_collateral_percentage{zone=~\"C|D|liquidation\", ilk=\"wstETH_B\"})",
           "interval": "",
@@ -586,10 +544,7 @@
       "type": "timeseries"
     },
     {
-      "datasource": {
-        "type": "prometheus",
-        "uid": "Ggj6dYQ7z"
-      },
+      "datasource": null,
       "description": "Collateral is under risk in the case of collateral to loan ratio is below of 1.6",
       "fieldConfig": {
         "defaults": {
@@ -683,10 +638,7 @@
       "type": "timeseries"
     },
     {
-      "datasource": {
-        "type": "prometheus",
-        "uid": "Ggj6dYQ7z"
-      },
+      "datasource": null,
       "fieldConfig": {
         "defaults": {
           "color": {
@@ -818,10 +770,7 @@
       },
       "targets": [
         {
-          "datasource": {
-            "type": "prometheus",
-            "uid": "Ggj6dYQ7z"
-          },
+          "datasource": null,
           "exemplar": true,
           "expr": "maker_risks_collateral_percentage{ilk=\"wstETH_A\"}",
           "interval": "",
@@ -833,10 +782,7 @@
       "type": "timeseries"
     },
     {
-      "datasource": {
-        "type": "prometheus",
-        "uid": "Ggj6dYQ7z"
-      },
+      "datasource": null,
       "fieldConfig": {
         "defaults": {
           "color": {
@@ -968,10 +914,7 @@
       },
       "targets": [
         {
-          "datasource": {
-            "type": "prometheus",
-            "uid": "Ggj6dYQ7z"
-          },
+          "datasource": null,
           "exemplar": true,
           "expr": "maker_risks_collateral_percentage{ilk=\"wstETH_B\"}",
           "interval": "",
@@ -983,10 +926,7 @@
       "type": "timeseries"
     },
     {
-      "datasource": {
-        "type": "prometheus",
-        "uid": "Ggj6dYQ7z"
-      },
+      "datasource": null,
       "fieldConfig": {
         "defaults": {
           "color": {
@@ -1118,10 +1058,7 @@
       },
       "targets": [
         {
-          "datasource": {
-            "type": "prometheus",
-            "uid": "Ggj6dYQ7z"
-          },
+          "datasource": null,
           "exemplar": true,
           "expr": "maker_risks_collateral_percentage{ilk=\"steCRV_A\"}",
           "interval": "",
@@ -1133,10 +1070,7 @@
       "type": "timeseries"
     },
     {
-      "datasource": {
-        "type": "prometheus",
-        "uid": "Ggj6dYQ7z"
-      },
+      "datasource": null,
       "description": "Percent of collateral within 1.1 .. 1.25 ratio range",
       "fieldConfig": {
         "defaults": {
@@ -1214,10 +1148,7 @@
       },
       "targets": [
         {
-          "datasource": {
-            "type": "prometheus",
-            "uid": "Ggj6dYQ7z"
-          },
+          "datasource": null,
           "exemplar": true,
           "expr": "maker_risks_collateral_percentage{zone=\"C\", ilk=\"wstETH_A\"}",
           "interval": "",
@@ -1229,10 +1160,7 @@
       "type": "timeseries"
     },
     {
-      "datasource": {
-        "type": "prometheus",
-        "uid": "Ggj6dYQ7z"
-      },
+      "datasource": null,
       "description": "Percent of collateral within 1.1 .. 1.25 ratio range",
       "fieldConfig": {
         "defaults": {
@@ -1310,10 +1238,7 @@
       },
       "targets": [
         {
-          "datasource": {
-            "type": "prometheus",
-            "uid": "Ggj6dYQ7z"
-          },
+          "datasource": null,
           "exemplar": true,
           "expr": "maker_risks_collateral_percentage{zone=\"C\", ilk=\"wstETH_B\"}",
           "interval": "",
@@ -1325,10 +1250,7 @@
       "type": "timeseries"
     },
     {
-      "datasource": {
-        "type": "prometheus",
-        "uid": "Ggj6dYQ7z"
-      },
+      "datasource": null,
       "description": "Percent of collateral within 1.1 .. 1.25 ratio range",
       "fieldConfig": {
         "defaults": {
@@ -1406,10 +1328,7 @@
       },
       "targets": [
         {
-          "datasource": {
-            "type": "prometheus",
-            "uid": "Ggj6dYQ7z"
-          },
+          "datasource": null,
           "exemplar": true,
           "expr": "maker_risks_collateral_percentage{zone=\"C\", ilk=\"steCRV_A\"}",
           "interval": "",
@@ -1421,10 +1340,7 @@
       "type": "timeseries"
     },
     {
-      "datasource": {
-        "type": "prometheus",
-        "uid": "Ggj6dYQ7z"
-      },
+      "datasource": null,
       "description": "Percent of collateral within 1.0 .. 1.1 ratio range",
       "fieldConfig": {
         "defaults": {
@@ -1502,10 +1418,7 @@
       },
       "targets": [
         {
-          "datasource": {
-            "type": "prometheus",
-            "uid": "Ggj6dYQ7z"
-          },
+          "datasource": null,
           "exemplar": true,
           "expr": "maker_risks_collateral_percentage{zone=\"D\", ilk=\"wstETH_A\"}",
           "interval": "",
@@ -1517,10 +1430,7 @@
       "type": "timeseries"
     },
     {
-      "datasource": {
-        "type": "prometheus",
-        "uid": "Ggj6dYQ7z"
-      },
+      "datasource": null,
       "description": "Percent of collateral within 1.0 .. 1.1 ratio range",
       "fieldConfig": {
         "defaults": {
@@ -1598,10 +1508,7 @@
       },
       "targets": [
         {
-          "datasource": {
-            "type": "prometheus",
-            "uid": "Ggj6dYQ7z"
-          },
+          "datasource": null,
           "exemplar": true,
           "expr": "maker_risks_collateral_percentage{zone=\"D\", ilk=\"wstETH_B\"}",
           "interval": "",
@@ -1613,10 +1520,7 @@
       "type": "timeseries"
     },
     {
-      "datasource": {
-        "type": "prometheus",
-        "uid": "Ggj6dYQ7z"
-      },
+      "datasource": null,
       "description": "Percent of collateral within 1.0 .. 1.1 ratio range",
       "fieldConfig": {
         "defaults": {
@@ -1694,10 +1598,7 @@
       },
       "targets": [
         {
-          "datasource": {
-            "type": "prometheus",
-            "uid": "Ggj6dYQ7z"
-          },
+          "datasource": null,
           "exemplar": true,
           "expr": "maker_risks_collateral_percentage{zone=\"D\", ilk=\"steCRV_A\"}",
           "interval": "",
@@ -1717,7 +1618,7 @@
     "list": []
   },
   "time": {
-    "from": "now-30m",
+    "from": "now-24h",
     "to": "now"
   },
   "timepicker": {},
