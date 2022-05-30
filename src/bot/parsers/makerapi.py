@@ -12,7 +12,7 @@ from .base import BaseParser
 
 API_BASE = "https://data-api.makerdao.network/v1"
 API_QUERY_LIMIT = 100
-TOKEN_REFRESH_INTERVAL = 45 * 60 * 1000  # seconds
+TOKEN_REFRESH_INTERVAL = 45 * 60  # seconds
 
 log = logging.getLogger(__name__)
 
