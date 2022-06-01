@@ -10,7 +10,7 @@ from unsync import unsync
 from .analytics import calculate_values
 from .config import MAKER_DATAAPI_PASSWORD, MAKER_DATAAPI_USERNAME, PARSE_INTERVAL
 from .ilks import STECRV_A, WSTETH_A, WSTETH_B
-from .metrics import COLLATERALS_ZONES_PERCENT, PARSER_LAST_BLOCK, PARSER_LAST_FETCHED
+from .metrics import APP_ERRORS, COLLATERALS_ZONES_PERCENT, FETCH_DURATION, PARSER_LAST_BLOCK, PARSER_LAST_FETCHED
 from .parsers import BaseParser, MakerAPIParser, MakerAPIProvider
 
 
@@ -26,14 +26,18 @@ class MakerBot:  # pylint: disable=too-few-public-methods
         self.log.info("Fetching has been started")
 
     def _compute_metrics(self, data: pd.DataFrame, parser: BaseParser) -> None:
-        values = calculate_values(data, parser)
+        with APP_ERRORS.labels("calculations").count_exceptions():
+            values = calculate_values(data, parser)
         for zone, percent in values.items():
             COLLATERALS_ZONES_PERCENT.labels(parser.asset.symbol, zone).set(percent)
         self.log.debug("Metrics has been updated\n%s", self.pprint.pformat(values))
 
     @unsync
     def _run(self, parser: BaseParser) -> None:
-        data = parser.parse()
+        with FETCH_DURATION.labels(parser.asset.symbol).time():
+            with APP_ERRORS.labels("fetching").count_exceptions():
+                data = parser.parse()
+
         self._compute_metrics(data, parser)
         PARSER_LAST_FETCHED.labels(parser.asset.symbol).set_to_current_time()
         PARSER_LAST_BLOCK.labels(parser.asset.symbol).set(parser.block)
@@ -63,6 +67,7 @@ class MakerBot:  # pylint: disable=too-few-public-methods
                 ]
             except Exception as ex:  # pylint: disable=broad-except
                 self.log.error("Tasks collecting has been failed", exc_info=ex)
+                APP_ERRORS.labels("scheduling").inc()
             else:
                 for symbol, task in tasks:
                     try:

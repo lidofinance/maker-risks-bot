@@ -19,6 +19,11 @@ PARSER_LAST_BLOCK = Gauge(
     "Last block available to fetch from Maker database",
     ("ilk",),
 )
+FETCH_DURATION = Gauge(
+    f"{PREFIX}_fetch_duration",
+    "Collateral type parsing duration",
+    ("ilk",),
+)
 ETH_RPC_REQUESTS = Counter(
     f"{PREFIX}_eth_rpc_requests",
     "Total count of requests to ETH1 RPC",
@@ -27,6 +32,11 @@ ETH_RPC_REQUESTS = Counter(
 ETH_RPC_REQUESTS_DURATION = Histogram(
     f"{PREFIX}_eth_rpc_requests_duration",
     "Duration of requests to ETH1 RPC",
+)
+APP_ERRORS = Counter(
+    f"{PREFIX}_app_errors",
+    "Errors count raised during app lifecycle",
+    ("module",),
 )
 HTTP_REQUESTS_DURATION = Histogram(
     f"{PREFIX}_http_requests_duration",
