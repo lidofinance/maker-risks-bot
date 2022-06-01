@@ -28,3 +28,13 @@ ETH_RPC_REQUESTS_DURATION = Histogram(
     f"{PREFIX}_eth_rpc_requests_duration",
     "Duration of requests to ETH1 RPC",
 )
+HTTP_REQUESTS_DURATION = Histogram(
+    f"{PREFIX}_http_requests_duration",
+    "Duration of HTTP requests",
+    ("domain", "path", "method"),
+)
+HTTP_REQUESTS = Counter(
+    f"{PREFIX}_http_requests",
+    "Total count of HTTP requests",
+    ("domain", "path", "method", "http_code"),
+)
