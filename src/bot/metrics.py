@@ -1,6 +1,6 @@
 """Exporter metrics definitions"""
 
-from prometheus_client import Gauge
+from prometheus_client import Counter, Gauge, Histogram
 
 PREFIX = "maker_risks"
 
@@ -18,4 +18,13 @@ PARSER_LAST_BLOCK = Gauge(
     f"{PREFIX}_parser_last_block",
     "Last block available to fetch from Maker database",
     ("ilk",),
+)
+ETH_RPC_REQUESTS = Counter(
+    f"{PREFIX}_eth_rpc_requests",
+    "Total count of requests to ETH1 RPC",
+    ("method", "code"),
+)
+ETH_RPC_REQUESTS_DURATION = Histogram(
+    f"{PREFIX}_eth_rpc_requests_duration",
+    "Duration of requests to ETH1 RPC",
 )

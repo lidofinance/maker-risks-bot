@@ -10,7 +10,7 @@ from web3 import HTTPProvider, Web3
 from web3.contract import Contract
 
 from .config import NODE_ENDPOINT
-from .middleware import requests_cache
+from .middleware import chain_id_mock, metrics_collector
 
 log = logging.getLogger(__name__)
 
@@ -22,7 +22,9 @@ VAT_ADDRESS = "0x35D1b3F3D7966A1DFe207aa4514C12a259A0492B"
 
 
 w3 = Web3(HTTPProvider(NODE_ENDPOINT))
-w3.middleware_onion.add(requests_cache, "requests_cache")
+
+w3.middleware_onion.add(metrics_collector)
+w3.middleware_onion.add(chain_id_mock)
 
 
 @cache
