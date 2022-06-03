@@ -623,10 +623,7 @@
       },
       "targets": [
         {
-          "datasource": {
-            "type": "prometheus",
-            "uid": "Ggj6dYQ7z"
-          },
+          "datasource": null,
           "exemplar": true,
           "expr": "sum(maker_risks_collateral_percentage{zone=~\"C|D|liquidation\", ilk=\"steCRV_A\"})",
           "interval": "",
