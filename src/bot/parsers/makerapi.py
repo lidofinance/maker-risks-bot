@@ -1,12 +1,13 @@
 """MakerDAO Data API based parser"""
 
 import logging
+from threading import Lock
 from time import monotonic_ns
 from typing import Iterable, Optional
 
 import pandas as pd
-import requests
 
+from ..http import requests_get, requests_post
 from ..ilks import MakerCollateral
 from .base import BaseParser
 
@@ -24,22 +25,22 @@ class MakerAPIProvider:
         self.username = username
         self.password = password
 
+        self._lock = Lock()
         self._token: Optional[str] = None
         self._token_updated_at: Optional[int] = None
-
         self._auth()
 
     def _auth(self) -> None:
-        req = requests.post(
+        resp = requests_post(
             url=f"{API_BASE}/login/access-token",
             data={
                 "username": self.username,
                 "password": self.password,
             },
         )
+        resp.raise_for_status()
 
-        req.raise_for_status()
-        self._token = req.json()["access_token"]
+        self._token = resp.json()["access_token"]
         self._token_updated_at = monotonic_ns()
 
         log.info("API token refreshed")
@@ -51,11 +52,13 @@ class MakerAPIProvider:
         if not self._token:
             raise RuntimeError("token requested before auth")
 
-        # check for refresh requirements
-        if self._token_updated_at:
-            refresh_timestamp = self._token_updated_at + TOKEN_REFRESH_INTERVAL * 10**9
-            if monotonic_ns() > refresh_timestamp:
-                self._auth()
+        with self._lock:
+            # check for refresh requirements
+            if self._token_updated_at:
+                refresh_timestamp = self._token_updated_at + TOKEN_REFRESH_INTERVAL * 10**9
+                if monotonic_ns() > refresh_timestamp:
+                    log.info("API token expired, refreshing")
+                    self._auth()
 
         return self._token
 
@@ -63,9 +66,9 @@ class MakerAPIProvider:
         """Make GET requests to Maker Data API"""
 
         headers = {"Authorization": f"Bearer {self.token}"}
-        req = requests.get(url=f"{API_BASE}{url}", headers=headers, **kwargs)
-        req.raise_for_status()
-        return req.json()
+        resp = requests_get(url=f"{API_BASE}{url}", headers=headers, **kwargs)
+        resp.raise_for_status()
+        return resp.json()
 
 
 class MakerAPIParser(BaseParser):
