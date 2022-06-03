@@ -1,3 +1,12 @@
+## [1.3.1](https://github.com/lidofinance/maker-risks-bot/compare/1.3.0...1.3.1) (2022-06-03)
+
+
+### Bug Fixes
+
+* **grafana:** one more datasource fix ([#8](https://github.com/lidofinance/maker-risks-bot/issues/8)) ([#14](https://github.com/lidofinance/maker-risks-bot/issues/14)) ([2cb45ae](https://github.com/lidofinance/maker-risks-bot/commit/2cb45ae9d9ff55244ebbf8dd6586d93e98b858db))
+
+
+
 # [1.3.0](https://github.com/lidofinance/maker-risks-bot/compare/1.2.1...1.3.0) (2022-06-03)
 
 
