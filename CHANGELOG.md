@@ -1,3 +1,12 @@
+## [1.3.2](https://github.com/lidofinance/maker-risks-bot/compare/1.3.1...1.3.2) (2022-06-03)
+
+
+### Bug Fixes
+
+* CI workflows ([4c93624](https://github.com/lidofinance/maker-risks-bot/commit/4c93624cbe141929d2d8220cd8aff69bbb0a266d))
+
+
+
 ## [1.3.1](https://github.com/lidofinance/maker-risks-bot/compare/1.3.0...1.3.1) (2022-06-03)
 
 
