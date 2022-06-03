@@ -39,7 +39,7 @@ jobs:
           fi
       
       - name: Build prod image
-        run: .github/dispatch_workflow.py
+        uses: lidofinance/dispatch-workflow@v1
         env:
           APP_ID: ${{ secrets.APP_ID }}
           APP_PRIVATE_KEY: ${{ secrets.APP_PRIVATE_KEY }}
