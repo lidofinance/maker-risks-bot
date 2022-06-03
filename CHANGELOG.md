@@ -1,10 +1,11 @@
-# [1.3.0](https://github.com/lidofinance/maker-risks-bot/compare/1.2.1...1.3.0) (2022-06-03)
+# [1.4.0](https://github.com/lidofinance/maker-risks-bot/compare/1.2.1...1.4.0) (2022-06-03)
 
 
 ### Bug Fixes
 
 * cleanup environment variables ([eec16de](https://github.com/lidofinance/maker-risks-bot/commit/eec16def08718b161537f717f72a3883caa5dacd))
 * fix wrong time interval ([5cae0cf](https://github.com/lidofinance/maker-risks-bot/commit/5cae0cf20b8e718bea0ce9132546b478bba5cb6c))
+* **grafana:** one more datasource fix ([#8](https://github.com/lidofinance/maker-risks-bot/issues/8)) ([#14](https://github.com/lidofinance/maker-risks-bot/issues/14)) ([2cb45ae](https://github.com/lidofinance/maker-risks-bot/commit/2cb45ae9d9ff55244ebbf8dd6586d93e98b858db))
 * replace datasource with null ([1fc7490](https://github.com/lidofinance/maker-risks-bot/commit/1fc7490d2f14252f5edcd77335db6f087549945d))
 
 
