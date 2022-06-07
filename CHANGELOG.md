@@ -1,3 +1,12 @@
+# [1.4.0](https://github.com/lidofinance/maker-risks-bot/compare/1.3.2...1.4.0) (2022-06-07)
+
+
+### Features
+
+* **metrics:** add BUILD_INFO metric ([#19](https://github.com/lidofinance/maker-risks-bot/issues/19)) ([32311ca](https://github.com/lidofinance/maker-risks-bot/commit/32311caeb20ac24439aae77a6bf5fea45dc6566c))
+
+
+
 ## [1.3.2](https://github.com/lidofinance/maker-risks-bot/compare/1.3.1...1.3.2) (2022-06-03)
 
 
