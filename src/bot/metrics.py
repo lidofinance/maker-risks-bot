@@ -1,5 +1,7 @@
 """Exporter metrics definitions"""
 
+import platform as pf
+
 from prometheus_client import Counter, Gauge, Histogram
 
 PREFIX = "maker_risks"
@@ -48,3 +50,18 @@ HTTP_REQUESTS = Counter(
     "Total count of HTTP requests",
     ("domain", "path", "method", "http_code"),
 )
+
+BUILD_INFO = Gauge(
+    f"{PREFIX}_build_info",
+    "Bot build info",
+    ("pyversion",),
+)
+
+
+def report_build_info() -> None:
+    """Report _build_info metric"""
+
+    pyversion = ".".join(pf.python_version_tuple())
+    BUILD_INFO.labels(
+        pyversion=pyversion,
+    ).set(1)
