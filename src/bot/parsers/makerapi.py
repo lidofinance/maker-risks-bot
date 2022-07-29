@@ -28,7 +28,6 @@ class MakerAPIProvider:
         self._lock = Lock()
         self._token: Optional[str] = None
         self._token_updated_at: Optional[int] = None
-        self._auth()
 
     def _auth(self) -> None:
         resp = requests_post(
@@ -49,16 +48,20 @@ class MakerAPIProvider:
     def token(self) -> str:
         """Authorization token to Maker Data API"""
 
-        if not self._token:
-            raise RuntimeError("token requested before auth")
-
         with self._lock:
-            # check for refresh requirements
-            if self._token_updated_at:
+            # first time request for token
+            if not self._token_updated_at:
+                self._auth()
+            else:
+                # check for refresh requirements
                 refresh_timestamp = self._token_updated_at + TOKEN_REFRESH_INTERVAL * 10**9
                 if monotonic_ns() > refresh_timestamp:
                     log.info("API token expired, refreshing")
                     self._auth()
+
+            # just to make sure
+            if not self._token:
+                raise RuntimeError("No token available")
 
         return self._token
 
