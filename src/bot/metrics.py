@@ -11,15 +11,18 @@ COLLATERALS_ZONES_PERCENT = Gauge(
     "Maker collaterals percentage distribution",
     ("ilk", "zone"),
 )
-PARSER_LAST_FETCHED = Gauge(
-    f"{PREFIX}_parser_last_fetched",
+PROCESSING_COMPLETED = Gauge(
+    f"{PREFIX}_processing_finished_seconds",
     "Last one successful parsing cycle completion timestamp",
     ("ilk",),
 )
-PARSER_LAST_BLOCK = Gauge(
-    f"{PREFIX}_parser_last_block",
-    "Last block available to fetch from Maker database",
-    ("ilk",),
+API_LAST_BLOCK = Gauge(
+    f"{PREFIX}_api_last_block_num",
+    "Last block number available to fetch from Maker database",
+)
+ETH_LATEST_BLOCK = Gauge(
+    f"{PREFIX}_eth_latest_block_num",
+    "Latest block block number fetched by bot",
 )
 FETCH_DURATION = Gauge(
     f"{PREFIX}_fetch_duration",

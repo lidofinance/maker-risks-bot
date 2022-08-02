@@ -6,10 +6,30 @@ groups:
       - alert: ProcessRestarted
         expr: changes(process_start_time_seconds{job="collaterals"}[15m]) >= 3
         labels:
-          stage: testing
-          severity: warning
+          severity: critical
         annotations:
           summary: Too much Maker bot restarts
-          description: The Maker bot has been restarted for {{ $value }} times for the last 15 minutes
+          description: >-
+            The Maker bot has been restarted for {{ $value }} times
+            for the last 15 minutes
+
+      - alert: StaleBotReport
+        expr: time() - makers_risks_processing_finished_seconds > 3600
+        labels:
+          severity: high
+        annotations:
+          summary: Stale bot report detected
+          description: >-
+            Last update for {{ .Labels.ilk }} was
+            {{ $value | humanizeDuration }} ago
+
+      - alert: MakerDataAPIOutdated
+        expr: |  # 1 hour
+          maker_risks_eth_latest_block_num - maker_risks_api_last_block_num
+          > 60 * 60 / 14
+        labels:
+          severity: high
+        annotations:
+          summary: Maker DataAPI is out of sync for {{ $value }} blocks
 
 # vim: set ts=2 sw=2 ft=yaml:

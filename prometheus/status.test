@@ -14,11 +14,46 @@ tests:
         alertname: ProcessRestarted
         exp_alerts:
           - exp_labels:
-              severity: warning
-              stage: testing
+              severity: critical
               job: collaterals
             exp_annotations:
               summary: Too much Maker bot restarts
-              description: The Maker bot has been restarted for 3 times for the last 15 minutes
+              description: >-
+                The Maker bot has been restarted for 3 times
+                for the last 15 minutes
+
+  # StaleBotReport
+  - interval: 15m
+    input_series:
+      - series: makers_risks_processing_finished_seconds{ilk="wstETH_A"}
+        values: 900+0x10
+    alert_rule_test:
+      # event should fire
+      - eval_time: 1h30m
+        alertname: StaleBotReport
+        exp_alerts:
+          - exp_labels:
+              ilk: wstETH_A
+              severity: high
+            exp_annotations:
+              summary: Stale bot report detected
+              description: Last update for wstETH_A was 1h 15m 0s ago
+
+  # MakerDataAPIOutdated
+  - interval: 1m
+    input_series:
+      - series: maker_risks_eth_latest_block_num
+        values: 100+5x89
+      - series: maker_risks_api_last_block_num
+        values: 100+0x89
+    alert_rule_test:
+      # event should fire
+      - eval_time: 1h
+        alertname: MakerDataAPIOutdated
+        exp_alerts:
+          - exp_labels:
+              severity: high
+            exp_annotations:
+              summary: Maker DataAPI is out of sync for 300 blocks
 
 # vim: set ts=2 sw=2 ft=yaml:

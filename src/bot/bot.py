@@ -9,8 +9,16 @@ from unsync import unsync
 
 from .analytics import calculate_values
 from .config import MAKER_DATAAPI_PASSWORD, MAKER_DATAAPI_USERNAME, PARSE_INTERVAL
+from .eth import w3
 from .ilks import STECRV_A, WSTETH_A, WSTETH_B
-from .metrics import APP_ERRORS, COLLATERALS_ZONES_PERCENT, FETCH_DURATION, PARSER_LAST_BLOCK, PARSER_LAST_FETCHED
+from .metrics import (
+    API_LAST_BLOCK,
+    APP_ERRORS,
+    COLLATERALS_ZONES_PERCENT,
+    ETH_LATEST_BLOCK,
+    FETCH_DURATION,
+    PROCESSING_COMPLETED,
+)
 from .parsers import BaseParser, MakerAPIParser, MakerAPIProvider
 
 
@@ -39,8 +47,7 @@ class MakerBot:  # pylint: disable=too-few-public-methods
                 data = parser.parse()
 
         self._compute_metrics(data, parser)
-        PARSER_LAST_FETCHED.labels(parser.asset.symbol).set_to_current_time()
-        PARSER_LAST_BLOCK.labels(parser.asset.symbol).set(parser.block)
+        PROCESSING_COMPLETED.labels(parser.asset.symbol).set_to_current_time()
 
         self.log.info("%s ilk fetch completed", parser.asset.symbol)
 
@@ -54,6 +61,10 @@ class MakerBot:  # pylint: disable=too-few-public-methods
         while True:
 
             try:
+                # set block number metric for status test
+                ETH_LATEST_BLOCK.set(w3.eth.block_number)
+                API_LAST_BLOCK.set(self.api.last_block())
+
                 tasks = [
                     (
                         asset.symbol,
