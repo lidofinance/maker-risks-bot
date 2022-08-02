@@ -73,6 +73,12 @@ class MakerAPIProvider:
         resp.raise_for_status()
         return resp.json()
 
+    def last_block(self) -> int:
+        """Retrieve the number of the latest synchronised block"""
+
+        req = self.get("/state/last_block")
+        return req["last_block"]
+
 
 class MakerAPIParser(BaseParser):
     """Maker protocol parser based on Maker Data API"""
@@ -80,12 +86,6 @@ class MakerAPIParser(BaseParser):
     def __init__(self, asset: MakerCollateral, api: MakerAPIProvider) -> None:
         super().__init__(asset)
         self._api = api
-
-    def fetch_block(self) -> int:
-        """Retrieve the id of the latest synchronised block"""
-
-        req = self._api.get("/state/last_block")
-        return req["last_block"]
 
     def get_urns(self) -> Iterable:
         """Get data from Maker Data API"""
@@ -110,7 +110,7 @@ class MakerAPIParser(BaseParser):
         return out
 
     def parse(self) -> pd.DataFrame:
-        self.block = self.fetch_block()
+        self.block = self._api.last_block()
         log.info("fetching data for %s ilk from block %d", self.asset.symbol, self.block)
 
         df = pd.DataFrame(self.get_urns())
