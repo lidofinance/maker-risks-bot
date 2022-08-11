@@ -16,6 +16,9 @@ on:
       - "*"
     paths-ignore:
       - ".github/**"
+      - "grafana/**"
+      - "alertmanager/**"
+      - "prometheus/**"
 
 jobs:
   # test:
@@ -28,7 +31,7 @@ jobs:
     steps:
       - name: Checkout
         uses: actions/checkout@v3
-        
+
       - name: Tag name
         id: tag_name
         run: |
@@ -37,7 +40,7 @@ jobs:
           else
             echo ::set-output name=TAG::${{ inputs.tag }}
           fi
-      
+
       - name: Build prod image
         uses: lidofinance/dispatch-workflow@v1
         env:
