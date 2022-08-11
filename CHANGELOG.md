@@ -1,3 +1,18 @@
+# [1.6.0](https://github.com/lidofinance/maker-risks-bot/compare/1.5.0...1.6.0) (2022-08-11)
+
+
+### Bug Fixes
+
+* **grafana:** fix timestamps metrics panels ([ea1ab4f](https://github.com/lidofinance/maker-risks-bot/commit/ea1ab4fcce0ae9999267ce30437d64973f64a558))
+* update curl version ([0006ebb](https://github.com/lidofinance/maker-risks-bot/commit/0006ebbffded4161f95ac0ac36196c3eab9e6989))
+
+
+### Features
+
+* **metrics:** improve status metrics and update prometheus rules ([e9374ec](https://github.com/lidofinance/maker-risks-bot/commit/e9374ecd4d854e6f2b8d9259f85a6d3d7bb16fa3))
+
+
+
 # [1.5.0](https://github.com/lidofinance/maker-risks-bot/compare/1.4.0...1.5.0) (2022-07-29)
 
 
