@@ -276,7 +276,7 @@
         "orientation": "auto",
         "reduceOptions": {
           "calcs": [
-            "lastNotNull"
+            "max"
           ],
           "fields": "",
           "values": false
@@ -289,7 +289,7 @@
           "datasource": null,
           "editorMode": "code",
           "exemplar": false,
-          "expr": "max_over_time(maker_risks_parser_last_fetched[1d]) * 1000",
+          "expr": "maker_risks_processing_finished_seconds * 1000",
           "instant": true,
           "interval": "",
           "legendFormat": "{{ilk}}",
@@ -338,7 +338,7 @@
         "orientation": "auto",
         "reduceOptions": {
           "calcs": [
-            "lastNotNull"
+            "max"
           ],
           "fields": "",
           "values": false
@@ -351,7 +351,7 @@
           "datasource": null,
           "editorMode": "code",
           "exemplar": false,
-          "expr": "max_over_time(maker_risks_parser_last_block[1d])",
+          "expr": "maker_risks_eth_latest_block_num",
           "instant": true,
           "interval": "",
           "legendFormat": "{{ilk}}",
