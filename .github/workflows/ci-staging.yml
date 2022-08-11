@@ -7,11 +7,14 @@ on:
       - master
     paths-ignore:
       - ".github/**"
+      - "grafana/**"
+      - "alertmanager/**"
+      - "prometheus/**"
 
 jobs:
   # test:
   #   ...
-  
+
   deploy:
     runs-on: ubuntu-latest
     # needs: test
