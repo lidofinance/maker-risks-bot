@@ -301,6 +301,70 @@
     },
     {
       "datasource": null,
+      "description": "",
+      "fieldConfig": {
+        "defaults": {
+          "color": {
+            "mode": "fixed"
+          },
+          "decimals": 0,
+          "mappings": [],
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "green",
+                "value": null
+              }
+            ]
+          },
+          "unit": "s"
+        },
+        "overrides": []
+      },
+      "gridPos": {
+        "h": 3,
+        "w": 3,
+        "x": 15,
+        "y": 3
+      },
+      "id": 26,
+      "options": {
+        "colorMode": "value",
+        "graphMode": "area",
+        "justifyMode": "auto",
+        "orientation": "auto",
+        "reduceOptions": {
+          "calcs": [
+            "max"
+          ],
+          "fields": "",
+          "values": false
+        },
+        "text": {
+          "valueSize": 24
+        },
+        "textMode": "auto"
+      },
+      "pluginVersion": "8.5.2",
+      "targets": [
+        {
+          "datasource": null,
+          "editorMode": "code",
+          "exemplar": false,
+          "expr": "(maker_risks_eth_latest_block_num - maker_risks_api_last_block_num) * 14",
+          "instant": true,
+          "interval": "",
+          "legendFormat": "{{ilk}}",
+          "refId": "A"
+        }
+      ],
+      "title": "Index delay estimate",
+      "type": "stat"
+    },
+    {
+      "datasource": null,
+      "description": "",
       "fieldConfig": {
         "defaults": {
           "color": {
@@ -326,11 +390,11 @@
       },
       "gridPos": {
         "h": 3,
-        "w": 9,
-        "x": 15,
+        "w": 3,
+        "x": 18,
         "y": 3
       },
-      "id": 23,
+      "id": 25,
       "options": {
         "colorMode": "value",
         "graphMode": "area",
@@ -342,6 +406,9 @@
           ],
           "fields": "",
           "values": false
+        },
+        "text": {
+          "valueSize": 24
         },
         "textMode": "auto"
       },
@@ -358,11 +425,76 @@
           "refId": "A"
         }
       ],
-      "title": "Last block",
+      "title": "Ethereum header block",
       "type": "stat"
     },
     {
       "datasource": null,
+      "description": "",
+      "fieldConfig": {
+        "defaults": {
+          "color": {
+            "mode": "fixed"
+          },
+          "mappings": [],
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "green",
+                "value": null
+              },
+              {
+                "color": "red",
+                "value": 80
+              }
+            ]
+          },
+          "unit": "none"
+        },
+        "overrides": []
+      },
+      "gridPos": {
+        "h": 3,
+        "w": 3,
+        "x": 21,
+        "y": 3
+      },
+      "id": 23,
+      "options": {
+        "colorMode": "value",
+        "graphMode": "area",
+        "justifyMode": "auto",
+        "orientation": "auto",
+        "reduceOptions": {
+          "calcs": [
+            "max"
+          ],
+          "fields": "",
+          "values": false
+        },
+        "text": {
+          "valueSize": 24
+        },
+        "textMode": "auto"
+      },
+      "pluginVersion": "8.5.2",
+      "targets": [
+        {
+          "datasource": null,
+          "editorMode": "code",
+          "exemplar": false,
+          "expr": "maker_risks_api_last_block_num",
+          "instant": true,
+          "interval": "",
+          "legendFormat": "{{ilk}}",
+          "refId": "A"
+        }
+      ],
+      "title": "Maker DataAPI header block",
+      "type": "stat"
+    },
+    {
       "description": "Collateral is under risk in the case of collateral to loan ratio is below of 1.6",
       "fieldConfig": {
         "defaults": {
