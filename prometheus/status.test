@@ -43,7 +43,7 @@ tests:
   - interval: 1m
     input_series:
       - series: maker_risks_eth_latest_block_num
-        values: 100+5x89
+        values: 100+15x89
       - series: maker_risks_api_last_block_num
         values: 100+0x89
     alert_rule_test:
@@ -54,6 +54,6 @@ tests:
           - exp_labels:
               severity: high
             exp_annotations:
-              summary: Maker DataAPI is out of sync for 300 blocks
+              summary: Maker DataAPI is out of sync for 900 blocks
 
 # vim: set ts=2 sw=2 ft=yaml:
