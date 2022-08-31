@@ -24,9 +24,9 @@ groups:
             {{ $value | humanizeDuration }} ago
 
       - alert: MakerDataAPIOutdated
-        expr: |  # 1 hour
+        expr: |  # 3 hours
           maker_risks_eth_latest_block_num - maker_risks_api_last_block_num
-          > 60 * 60 / 14
+          > 3 * 60 * 60 / 14
         labels:
           severity: high
         annotations:
