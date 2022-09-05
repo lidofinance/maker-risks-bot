@@ -27,7 +27,7 @@ isort = "^5.10.1"
 disable = ["fixme"]
 max-line-length = 120
 max-module-lines = 1000
-good-names = "i,j,df,ex"
+good-names = "i,j,f,df,ex"
 
 [tool.black]
 line-length = 120
