@@ -8,7 +8,7 @@ from typing import Iterable, Optional
 import pandas as pd
 
 from ..http import requests_get, requests_post
-from ..ilks import MakerCollateral
+from ..ilks import MakerIlk
 from .base import BaseParser
 
 API_BASE = "https://data-api.makerdao.network/v1"
@@ -83,15 +83,15 @@ class MakerAPIProvider:
 class MakerAPIParser(BaseParser):
     """Maker protocol parser based on Maker Data API"""
 
-    def __init__(self, asset: MakerCollateral, api: MakerAPIProvider) -> None:
-        super().__init__(asset)
+    def __init__(self, api: MakerAPIProvider, assets: Iterable[MakerIlk]) -> None:
+        super().__init__(assets)
         self._api = api
 
-    def get_urns(self) -> Iterable:
+    def get_urns(self, asset: MakerIlk) -> Iterable:
         """Get data from Maker Data API"""
 
         params = {
-            "ilk": self.asset.key,
+            "ilk": asset.key,
             "limit": API_QUERY_LIMIT,
             "skip": 0,
         }
@@ -109,24 +109,25 @@ class MakerAPIParser(BaseParser):
 
         return out
 
-    def parse(self) -> pd.DataFrame:
+    def fetch(self) -> Iterable[tuple[MakerIlk, pd.DataFrame]]:
         self.block = self._api.last_block()
-        log.info("fetching data for %s ilk from block %d", self.asset.symbol, self.block)
+        log.info("fetching data for block %d", self.block)
 
-        df = pd.DataFrame(self.get_urns())
-        df.drop_duplicates(inplace=True)
+        for asset in self.assets:
+            df = pd.DataFrame(self.get_urns(asset))
+            df.drop_duplicates(inplace=True)
 
-        stats = []
-        tasks = [(item["urn"], self.get_vault_stat(item["urn"])) for _, item in df.iterrows()]
-        for urn, task in tasks:
-            ink, art = task.result()  # type: ignore
-            stats.append(
-                {
-                    "urn": urn,
-                    "ink": ink,
-                    "art": art,
-                }
-            )
+            stats = []
+            tasks = [(item["urn"], self.get_vault_stat(asset, item["urn"])) for _, item in df.iterrows()]
+            for urn, task in tasks:
+                ink, art = task.result()  # type: ignore
+                stats.append(
+                    {
+                        "urn": urn,
+                        "ink": ink,
+                        "art": art,
+                    }
+                )
 
-        df = df.merge(pd.DataFrame(stats), on="urn", how="left")
-        return df
+            df = df.merge(pd.DataFrame(stats), on="urn", how="left")
+            yield asset, df

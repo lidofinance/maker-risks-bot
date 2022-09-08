@@ -2,15 +2,16 @@
 
 import logging
 import time
+from functools import partial
 from pprint import PrettyPrinter
+from typing import Iterable
 
 import pandas as pd
-from unsync import unsync
 
 from .analytics import calculate_values
-from .config import MAKER_DATAAPI_PASSWORD, MAKER_DATAAPI_USERNAME, PARSE_INTERVAL
+from .config import MAKER_DATAAPI_PASSWORD, MAKER_DATAAPI_USERNAME, PARSE_INTERVAL, PARSE_METHOD
 from .eth import w3
-from .ilks import STECRV_A, WSTETH_A, WSTETH_B
+from .ilks import STECRV_A, WSTETH_A, WSTETH_B, MakerIlk
 from .metrics import (
     API_LAST_BLOCK,
     APP_ERRORS,
@@ -19,7 +20,7 @@ from .metrics import (
     FETCH_DURATION,
     PROCESSING_COMPLETED,
 )
-from .parsers import BaseParser, MakerAPIParser, MakerAPIProvider
+from .parsers import MakerAPIParser, MakerAPIProvider, OnChainParser
 
 
 class MakerBot:  # pylint: disable=too-few-public-methods
@@ -28,28 +29,31 @@ class MakerBot:  # pylint: disable=too-few-public-methods
     def __init__(self) -> None:
         self.log = logging.getLogger(__name__)
         self.pprint = PrettyPrinter(indent=4)
+
+        self.assets = (
+            WSTETH_A,
+            WSTETH_B,
+            STECRV_A,
+        )
+
         self.api = MakerAPIProvider(MAKER_DATAAPI_USERNAME, MAKER_DATAAPI_PASSWORD)
+        method = OnChainParser if PARSE_METHOD == "ONCHAIN" else partial(MakerAPIParser, api=self.api)
+        self.parser = method(assets=self.assets)  # type: ignore
 
     def _fetch_block(self) -> None:
         self.log.info("Fetching has been started")
 
-    def _compute_metrics(self, data: pd.DataFrame, parser: BaseParser) -> None:
-        with APP_ERRORS.labels("calculations").count_exceptions():
-            values = calculate_values(data, parser)
-        for zone, percent in values.items():
-            COLLATERALS_ZONES_PERCENT.labels(parser.asset.symbol, zone).set(percent)
-        self.log.debug("Metrics has been updated\n%s", self.pprint.pformat(values))
-
-    @unsync
-    def _run(self, parser: BaseParser) -> None:
-        with FETCH_DURATION.labels(parser.asset.symbol).time():
+    def _run(self) -> Iterable[tuple[MakerIlk, pd.DataFrame]]:
+        with FETCH_DURATION.time():
             with APP_ERRORS.labels("fetching").count_exceptions():
-                data = parser.parse()
+                return self.parser.fetch()
 
-        self._compute_metrics(data, parser)
-        PROCESSING_COMPLETED.labels(parser.asset.symbol).set_to_current_time()
-
-        self.log.info("%s ilk fetch completed", parser.asset.symbol)
+    def _compute_metrics(self, df: pd.DataFrame, asset: MakerIlk) -> None:
+        with APP_ERRORS.labels("calculations").count_exceptions():
+            values = calculate_values(df, asset, self.parser)
+        for zone, percent in values.items():
+            COLLATERALS_ZONES_PERCENT.labels(asset.symbol, zone).set(percent)
+        self.log.debug("Metrics has been updated\n%s", self.pprint.pformat(values))
 
     @staticmethod
     def _settle() -> None:
@@ -65,25 +69,22 @@ class MakerBot:  # pylint: disable=too-few-public-methods
                 ETH_LATEST_BLOCK.set(w3.eth.block_number)
                 API_LAST_BLOCK.set(self.api.last_block())
 
-                tasks = [
-                    (
-                        asset.symbol,
-                        self._run(MakerAPIParser(asset, self.api)),
-                    )
-                    for asset in (
-                        WSTETH_A,
-                        WSTETH_B,
-                        STECRV_A,
-                    )
-                ]
+                results = self._run()
             except Exception as ex:  # pylint: disable=broad-except
-                self.log.error("Tasks collecting has been failed", exc_info=ex)
-                APP_ERRORS.labels("scheduling").inc()
+                self.log.error("Fetching data has been failed", exc_info=ex)
+                APP_ERRORS.labels("fetching").inc()
             else:
-                for symbol, task in tasks:
+                for asset, df in results:
                     try:
-                        task.result()  # type: ignore
+                        self._compute_metrics(df, asset)
+                        PROCESSING_COMPLETED.labels(asset.symbol).set_to_current_time()
+
+                        self.log.info("%s ilk processed", asset.symbol)
                     except Exception as ex:  # pylint: disable=broad-except
-                        self.log.error("Fetching %s collateral has been failed", symbol, exc_info=ex)
+                        self.log.error(
+                            "Processing %s collateral has been failed",
+                            asset.symbol,
+                            exc_info=ex,
+                        )
 
             self._settle()

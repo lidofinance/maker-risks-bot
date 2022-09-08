@@ -33,8 +33,7 @@ ETH_LATEST_BLOCK = Gauge(
 )
 FETCH_DURATION = Gauge(
     f"{PREFIX}_fetch_duration",
-    "Collateral type parsing duration",
-    ("ilk",),
+    "Vaults fetching duration",
 )
 ETH_RPC_REQUESTS = Counter(
     f"{PREFIX}_eth_rpc_requests",
