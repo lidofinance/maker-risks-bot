@@ -11,6 +11,7 @@ services:
       EXPORTER_PORT:
       PARSE_INTERVAL:
       LOG_FORMAT: simple
+      LOG_LEVEL: INFO
     restart: unless-stopped
 
   grafana:
