@@ -52,4 +52,5 @@ MAKER_DATAAPI_PASSWORD = getenv("MAKER_DATAAPI_PASSWORD", required=True)
 # === Optional ===
 
 PARSE_INTERVAL = getenv("PARSE_INTERVAL", int, 15 * 60)  # 15 min
+PARSE_METHOD = getenv("PARSE_METHOD", str, "ONCHAIN")
 EXPORTER_PORT = getenv("EXPORTER_PORT", int, default=8080)
