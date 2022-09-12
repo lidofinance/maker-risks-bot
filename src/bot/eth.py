@@ -44,9 +44,3 @@ CDP_REGISTRY = _contract(CDP_REGISTRY_ADDRESS, ABI_HOME / "cdp-registry-abi.json
 CDP_MANAGER = _contract(CDP_MANAGER_ADDRESS, ABI_HOME / "cdp-manager-abi.json")
 CROPPER = _contract(CROPPER_ADDRESS, ABI_HOME / "cropper-abi.json")
 VAT = _contract(VAT_ADDRESS, ABI_HOME / "vat-abi.json")
-
-
-def GemJoin(address: str) -> Contract:  # pylint: disable=invalid-name
-    """Maker GemJoin contract factory"""
-
-    return _contract(address, ABI_HOME / "join-gem-abi.json")
