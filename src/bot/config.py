@@ -46,11 +46,7 @@ if "wss://" in NODE_ENDPOINT:
     # doesn't work in the current flow. Magic asyncio fails happen.
     raise RuntimeError("Only http[s] Web3 provider endpoint supported")
 
-MAKER_DATAAPI_USERNAME = getenv("MAKER_DATAAPI_USERNAME", required=True)
-MAKER_DATAAPI_PASSWORD = getenv("MAKER_DATAAPI_PASSWORD", required=True)
-
 # === Optional ===
 
 PARSE_INTERVAL = getenv("PARSE_INTERVAL", int, 15 * 60)  # 15 min
-PARSE_METHOD = getenv("PARSE_METHOD", str, "ONCHAIN")
 EXPORTER_PORT = getenv("EXPORTER_PORT", int, default=8080)

@@ -15,7 +15,7 @@ class BaseParser(ABC):
     """Maker protocol parser"""
 
     def __init__(self, assets: Iterable[MakerIlk]) -> None:
-        self.block: BlockIdentifier
+        self.block: BlockIdentifier = "latest"
         self.assets = assets
 
     def get_vat_stats(self, asset: MakerIlk) -> tuple:

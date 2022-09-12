@@ -9,8 +9,6 @@ services:
     environment:
       NODE_ENDPOINT:
       EXPORTER_PORT:
-      MAKER_DATAAPI_USERNAME:
-      MAKER_DATAAPI_PASSWORD:
       PARSE_INTERVAL:
       LOG_FORMAT: simple
     restart: unless-stopped
