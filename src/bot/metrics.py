@@ -23,9 +23,9 @@ PROCESSING_COMPLETED = Gauge(
     "Last one successful parsing cycle completion timestamp",
     ("ilk",),
 )
-API_LAST_BLOCK = Gauge(
-    f"{PREFIX}_api_last_block_num",
-    "Last block number available to fetch from Maker database",
+BOT_LAST_BLOCK = Gauge(
+    f"{PREFIX}_bot_last_block_num",
+    "Last block number fetch by parser",
 )
 ETH_LATEST_BLOCK = Gauge(
     f"{PREFIX}_eth_latest_block_num",

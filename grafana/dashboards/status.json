@@ -22,8 +22,8 @@
   "editable": true,
   "fiscalYearStartMonth": 0,
   "graphTooltip": 0,
-  "id": 51,
-  "iteration": 1655968284941,
+  "id": 3,
+  "iteration": 1662993657760,
   "links": [
     {
       "asDropdown": false,
@@ -55,6 +55,294 @@
   "liveNow": false,
   "panels": [
     {
+      "collapsed": true,
+      "gridPos": {
+        "h": 1,
+        "w": 24,
+        "x": 0,
+        "y": 0
+      },
+      "id": 50,
+      "panels": [
+        {
+          "fieldConfig": {
+            "defaults": {
+              "color": {
+                "mode": "thresholds"
+              },
+              "mappings": [],
+              "thresholds": {
+                "mode": "absolute",
+                "steps": [
+                  {
+                    "color": "#555555",
+                    "value": null
+                  }
+                ]
+              }
+            },
+            "overrides": []
+          },
+          "gridPos": {
+            "h": 2,
+            "w": 4,
+            "x": 0,
+            "y": 1
+          },
+          "id": 46,
+          "options": {
+            "colorMode": "value",
+            "graphMode": "none",
+            "justifyMode": "auto",
+            "orientation": "auto",
+            "reduceOptions": {
+              "calcs": [
+                "lastNotNull"
+              ],
+              "fields": "",
+              "values": false
+            },
+            "text": {
+              "valueSize": 16
+            },
+            "textMode": "name"
+          },
+          "pluginVersion": "8.5.2",
+          "targets": [
+            {
+              "exemplar": true,
+              "expr": "maker_risks_build_info",
+              "instant": false,
+              "interval": "",
+              "legendFormat": "",
+              "refId": "A"
+            }
+          ],
+          "title": "Tag",
+          "transformations": [
+            {
+              "id": "labelsToFields",
+              "options": {
+                "valueLabel": "version"
+              }
+            }
+          ],
+          "type": "stat"
+        },
+        {
+          "fieldConfig": {
+            "defaults": {
+              "color": {
+                "mode": "thresholds"
+              },
+              "mappings": [],
+              "thresholds": {
+                "mode": "absolute",
+                "steps": [
+                  {
+                    "color": "#555555",
+                    "value": null
+                  }
+                ]
+              }
+            },
+            "overrides": []
+          },
+          "gridPos": {
+            "h": 2,
+            "w": 4,
+            "x": 4,
+            "y": 1
+          },
+          "id": 47,
+          "options": {
+            "colorMode": "value",
+            "graphMode": "none",
+            "justifyMode": "auto",
+            "orientation": "auto",
+            "reduceOptions": {
+              "calcs": [
+                "lastNotNull"
+              ],
+              "fields": "",
+              "values": false
+            },
+            "text": {
+              "valueSize": 16
+            },
+            "textMode": "name"
+          },
+          "pluginVersion": "8.5.2",
+          "targets": [
+            {
+              "exemplar": true,
+              "expr": "maker_risks_build_info",
+              "instant": false,
+              "interval": "",
+              "legendFormat": "",
+              "refId": "A"
+            }
+          ],
+          "title": "Branch",
+          "transformations": [
+            {
+              "id": "labelsToFields",
+              "options": {
+                "valueLabel": "branch"
+              }
+            }
+          ],
+          "type": "stat"
+        },
+        {
+          "fieldConfig": {
+            "defaults": {
+              "color": {
+                "mode": "thresholds"
+              },
+              "mappings": [],
+              "thresholds": {
+                "mode": "absolute",
+                "steps": [
+                  {
+                    "color": "#555555",
+                    "value": null
+                  }
+                ]
+              }
+            },
+            "overrides": []
+          },
+          "gridPos": {
+            "h": 2,
+            "w": 4,
+            "x": 8,
+            "y": 1
+          },
+          "id": 53,
+          "options": {
+            "colorMode": "value",
+            "graphMode": "none",
+            "justifyMode": "auto",
+            "orientation": "auto",
+            "reduceOptions": {
+              "calcs": [
+                "lastNotNull"
+              ],
+              "fields": "",
+              "values": false
+            },
+            "text": {
+              "valueSize": 16
+            },
+            "textMode": "name"
+          },
+          "pluginVersion": "8.5.2",
+          "targets": [
+            {
+              "exemplar": true,
+              "expr": "maker_risks_build_info",
+              "instant": false,
+              "interval": "",
+              "legendFormat": "",
+              "refId": "A"
+            }
+          ],
+          "title": "Commit",
+          "transformations": [
+            {
+              "id": "labelsToFields",
+              "options": {
+                "valueLabel": "commit"
+              }
+            }
+          ],
+          "type": "stat"
+        },
+        {
+          "fieldConfig": {
+            "defaults": {
+              "color": {
+                "mode": "thresholds"
+              },
+              "mappings": [],
+              "thresholds": {
+                "mode": "absolute",
+                "steps": [
+                  {
+                    "color": "#555555",
+                    "value": null
+                  }
+                ]
+              }
+            },
+            "overrides": []
+          },
+          "gridPos": {
+            "h": 2,
+            "w": 4,
+            "x": 12,
+            "y": 1
+          },
+          "id": 54,
+          "options": {
+            "colorMode": "value",
+            "graphMode": "none",
+            "justifyMode": "auto",
+            "orientation": "auto",
+            "reduceOptions": {
+              "calcs": [
+                "lastNotNull"
+              ],
+              "fields": "",
+              "values": false
+            },
+            "text": {
+              "valueSize": 16
+            },
+            "textMode": "name"
+          },
+          "pluginVersion": "8.5.2",
+          "targets": [
+            {
+              "exemplar": true,
+              "expr": "maker_risks_build_info",
+              "instant": false,
+              "interval": "",
+              "legendFormat": "",
+              "refId": "A"
+            }
+          ],
+          "title": "Python",
+          "transformations": [
+            {
+              "id": "labelsToFields",
+              "options": {
+                "valueLabel": "pyversion"
+              }
+            }
+          ],
+          "type": "stat"
+        }
+      ],
+      "title": "Build info",
+      "type": "row"
+    },
+    {
+      "collapsed": false,
+      "gridPos": {
+        "h": 1,
+        "w": 24,
+        "x": 0,
+        "y": 1
+      },
+      "id": 56,
+      "panels": [],
+      "title": "Summary",
+      "type": "row"
+    },
+    {
+      "datasource": null,
       "description": "Bot container uptime",
       "fieldConfig": {
         "defaults": {
@@ -87,7 +375,7 @@
         "h": 3,
         "w": 4,
         "x": 0,
-        "y": 0
+        "y": 2
       },
       "id": 2,
       "options": {
@@ -108,7 +396,7 @@
         },
         "textMode": "value"
       },
-      "pluginVersion": "8.4.6",
+      "pluginVersion": "8.5.2",
       "targets": [
         {
           "exemplar": false,
@@ -153,9 +441,9 @@
       },
       "gridPos": {
         "h": 3,
-        "w": 4,
+        "w": 7,
         "x": 4,
-        "y": 0
+        "y": 2
       },
       "id": 3,
       "options": {
@@ -176,7 +464,7 @@
         },
         "textMode": "value_and_name"
       },
-      "pluginVersion": "8.4.6",
+      "pluginVersion": "8.5.2",
       "targets": [
         {
           "exemplar": false,
@@ -207,7 +495,7 @@
               },
               {
                 "color": "orange",
-                "value": 30
+                "value": 60
               },
               {
                 "color": "red",
@@ -221,9 +509,9 @@
       },
       "gridPos": {
         "h": 3,
-        "w": 8,
-        "x": 8,
-        "y": 0
+        "w": 5,
+        "x": 11,
+        "y": 2
       },
       "id": 4,
       "options": {
@@ -242,7 +530,7 @@
           "titleSize": 16,
           "valueSize": 16
         },
-        "textMode": "value_and_name"
+        "textMode": "value"
       },
       "pluginVersion": "8.4.6",
       "targets": [
@@ -283,7 +571,7 @@
         "h": 3,
         "w": 4,
         "x": 16,
-        "y": 0
+        "y": 2
       },
       "id": 5,
       "options": {
@@ -342,9 +630,9 @@
         "h": 3,
         "w": 4,
         "x": 20,
-        "y": 0
+        "y": 2
       },
-      "id": 6,
+      "id": 57,
       "options": {
         "colorMode": "none",
         "graphMode": "none",
@@ -367,13 +655,13 @@
       "targets": [
         {
           "exemplar": true,
-          "expr": "sum(increase(maker_risks_http_requests_total{env=~\"$env\",source=~\"$source\"}[$__range]))",
+          "expr": "sum(increase(maker_risks_eth_rpc_requests_total{code!=\"0\",env=~\"$env\",source=~\"$source\"}[$__range]))",
           "interval": "",
           "legendFormat": "",
           "refId": "A"
         }
       ],
-      "title": "HTTP requests count",
+      "title": "ETH RPC errors count",
       "type": "stat"
     },
     {
@@ -382,7 +670,7 @@
         "h": 1,
         "w": 24,
         "x": 0,
-        "y": 3
+        "y": 5
       },
       "id": 10,
       "panels": [],
@@ -404,7 +692,7 @@
         "h": 8,
         "w": 16,
         "x": 0,
-        "y": 4
+        "y": 6
       },
       "heatmap": {},
       "hideZeroBuckets": true,
@@ -501,7 +789,7 @@
         "h": 8,
         "w": 8,
         "x": 16,
-        "y": 4
+        "y": 6
       },
       "id": 20,
       "options": {
@@ -531,153 +819,12 @@
       "type": "timeseries"
     },
     {
-      "cards": {},
-      "color": {
-        "cardColor": "#b4ff00",
-        "colorScale": "sqrt",
-        "colorScheme": "interpolateOranges",
-        "exponent": 0.5,
-        "mode": "spectrum"
-      },
-      "dataFormat": "tsbuckets",
-      "description": "Duration of requests to external HTTP services",
-      "gridPos": {
-        "h": 8,
-        "w": 16,
-        "x": 0,
-        "y": 12
-      },
-      "heatmap": {},
-      "hideZeroBuckets": true,
-      "highlightCards": true,
-      "id": 21,
-      "legend": {
-        "show": true
-      },
-      "maxDataPoints": 20,
-      "pluginVersion": "8.2.2",
-      "reverseYBuckets": false,
-      "targets": [
-        {
-          "exemplar": false,
-          "expr": "sum(increase(maker_risks_http_requests_duration_bucket{env=~\"$env\",source=~\"$source\"}[$__interval])) by (le)",
-          "format": "heatmap",
-          "instant": false,
-          "interval": "",
-          "legendFormat": "{{le}}",
-          "refId": "A"
-        }
-      ],
-      "title": "HTTP requests duration",
-      "tooltip": {
-        "show": true,
-        "showHistogram": false
-      },
-      "type": "heatmap",
-      "xAxis": {
-        "show": true
-      },
-      "yAxis": {
-        "format": "s",
-        "logBase": 1,
-        "show": true
-      },
-      "yBucketBound": "auto"
-    },
-    {
-      "description": "Number of request errors to external HTTP services",
-      "fieldConfig": {
-        "defaults": {
-          "color": {
-            "mode": "thresholds"
-          },
-          "custom": {
-            "axisLabel": "errors/minute",
-            "axisPlacement": "auto",
-            "axisSoftMax": 10,
-            "barAlignment": 0,
-            "drawStyle": "line",
-            "fillOpacity": 0,
-            "gradientMode": "none",
-            "hideFrom": {
-              "legend": false,
-              "tooltip": false,
-              "viz": false
-            },
-            "lineInterpolation": "linear",
-            "lineWidth": 2,
-            "pointSize": 5,
-            "scaleDistribution": {
-              "type": "linear"
-            },
-            "showPoints": "auto",
-            "spanNulls": false,
-            "stacking": {
-              "group": "A",
-              "mode": "none"
-            },
-            "thresholdsStyle": {
-              "mode": "off"
-            }
-          },
-          "mappings": [],
-          "thresholds": {
-            "mode": "absolute",
-            "steps": [
-              {
-                "color": "green",
-                "value": null
-              },
-              {
-                "color": "red",
-                "value": 1
-              }
-            ]
-          },
-          "unit": "none"
-        },
-        "overrides": []
-      },
-      "gridPos": {
-        "h": 8,
-        "w": 8,
-        "x": 16,
-        "y": 12
-      },
-      "id": 22,
-      "options": {
-        "legend": {
-          "calcs": [
-            "lastNotNull"
-          ],
-          "displayMode": "hidden",
-          "placement": "bottom"
-        },
-        "tooltip": {
-          "mode": "single",
-          "sort": "none"
-        }
-      },
-      "targets": [
-        {
-          "exemplar": true,
-          "expr": "sum(increase(maker_risks_http_requests_total{http_code!~\"[1-3][0-9][0-9]\",env=~\"$env\",source=~\"$source\"}[1m])) by (http_code)",
-          "format": "time_series",
-          "interval": "",
-          "legendFormat": "{{http_code}}",
-          "refId": "A"
-        }
-      ],
-      "title": "HTTP requests errors",
-      "type": "timeseries"
-    },
-    {
       "collapsed": true,
       "gridPos": {
         "h": 1,
         "w": 24,
         "x": 0,
-        "y": 20
+        "y": 14
       },
       "id": 12,
       "panels": [
@@ -761,7 +908,7 @@
         "h": 1,
         "w": 24,
         "x": 0,
-        "y": 21
+        "y": 15
       },
       "id": 28,
       "panels": [
@@ -1116,7 +1263,7 @@
         "h": 1,
         "w": 24,
         "x": 0,
-        "y": 22
+        "y": 16
       },
       "id": 36,
       "panels": [
@@ -1636,7 +1783,7 @@
     }
   ],
   "refresh": "5m",
-  "schemaVersion": 35,
+  "schemaVersion": 36,
   "style": "dark",
   "tags": [
     "bot",

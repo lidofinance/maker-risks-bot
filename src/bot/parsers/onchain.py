@@ -83,6 +83,8 @@ class OnChainParser(BaseParser):
 
         self.update_cdps_map()
 
+        dfs = []
+
         for asset in self.assets:
             cdps = self.cdps_map[asset.join]
             urns = []
@@ -105,4 +107,6 @@ class OnChainParser(BaseParser):
                 )
 
             df = pd.DataFrame(stats)
-            yield asset, df
+            dfs.append((asset, df))
+
+        return dfs
