@@ -24,11 +24,11 @@
   "editable": true,
   "fiscalYearStartMonth": 0,
   "graphTooltip": 0,
+  "id": 2,
   "links": [],
   "liveNow": false,
   "panels": [
     {
-      "datasource": null,
       "fieldConfig": {
         "defaults": {
           "color": {
@@ -65,7 +65,7 @@
       },
       "gridPos": {
         "h": 6,
-        "w": 5,
+        "w": 7,
         "x": 0,
         "y": 0
       },
@@ -86,7 +86,6 @@
       "pluginVersion": "8.5.2",
       "targets": [
         {
-          "datasource": null,
           "exemplar": true,
           "expr": "sum(maker_risks_collateral_percentage{zone=~\"C|D|liquidation\", ilk=\"wstETH_A\"})",
           "interval": "",
@@ -98,7 +97,6 @@
       "type": "gauge"
     },
     {
-      "datasource": null,
       "fieldConfig": {
         "defaults": {
           "color": {
@@ -135,8 +133,8 @@
       },
       "gridPos": {
         "h": 6,
-        "w": 5,
-        "x": 5,
+        "w": 7,
+        "x": 7,
         "y": 0
       },
       "id": 13,
@@ -156,7 +154,6 @@
       "pluginVersion": "8.5.2",
       "targets": [
         {
-          "datasource": null,
           "exemplar": true,
           "expr": "sum(maker_risks_collateral_percentage{zone=~\"C|D|liquidation\", ilk=\"wstETH_B\"})",
           "interval": "",
@@ -168,7 +165,6 @@
       "type": "gauge"
     },
     {
-      "datasource": null,
       "fieldConfig": {
         "defaults": {
           "color": {
@@ -205,8 +201,8 @@
       },
       "gridPos": {
         "h": 6,
-        "w": 5,
-        "x": 10,
+        "w": 7,
+        "x": 14,
         "y": 0
       },
       "id": 18,
@@ -226,7 +222,6 @@
       "pluginVersion": "8.5.2",
       "targets": [
         {
-          "datasource": null,
           "exemplar": true,
           "expr": "sum(maker_risks_collateral_percentage{zone=~\"C|D|liquidation\", ilk=\"steCRV_A\"})",
           "interval": "",
@@ -264,8 +259,8 @@
       },
       "gridPos": {
         "h": 3,
-        "w": 9,
-        "x": 15,
+        "w": 3,
+        "x": 21,
         "y": 0
       },
       "id": 12,
@@ -289,7 +284,7 @@
           "datasource": null,
           "editorMode": "code",
           "exemplar": false,
-          "expr": "maker_risks_processing_finished_seconds * 1000",
+          "expr": "max(maker_risks_processing_finished_seconds * 1000)",
           "instant": true,
           "interval": "",
           "legendFormat": "{{ilk}}",
@@ -313,10 +308,6 @@
               {
                 "color": "green",
                 "value": null
-              },
-              {
-                "color": "red",
-                "value": 80
               }
             ]
           },
@@ -326,11 +317,11 @@
       },
       "gridPos": {
         "h": 3,
-        "w": 9,
-        "x": 15,
+        "w": 3,
+        "x": 21,
         "y": 3
       },
-      "id": 23,
+      "id": 25,
       "options": {
         "colorMode": "value",
         "graphMode": "area",
@@ -351,18 +342,17 @@
           "datasource": null,
           "editorMode": "code",
           "exemplar": false,
-          "expr": "maker_risks_eth_latest_block_num",
+          "expr": "maker_risks_bot_last_block_num",
           "instant": true,
           "interval": "",
           "legendFormat": "{{ilk}}",
           "refId": "A"
         }
       ],
-      "title": "Last block",
+      "title": "Last parsed block",
       "type": "stat"
     },
     {
-      "datasource": null,
       "description": "Collateral is under risk in the case of collateral to loan ratio is below of 1.6",
       "fieldConfig": {
         "defaults": {
@@ -441,7 +431,6 @@
       },
       "targets": [
         {
-          "datasource": null,
           "exemplar": true,
           "expr": "sum(maker_risks_collateral_percentage{zone=~\"C|D|liquidation\", ilk=\"wstETH_A\"})",
           "interval": "",
@@ -453,7 +442,6 @@
       "type": "timeseries"
     },
     {
-      "datasource": null,
       "description": "Collateral is under risk in the case of collateral to loan ratio is below of 1.6",
       "fieldConfig": {
         "defaults": {
@@ -532,7 +520,6 @@
       },
       "targets": [
         {
-          "datasource": null,
           "exemplar": true,
           "expr": "sum(maker_risks_collateral_percentage{zone=~\"C|D|liquidation\", ilk=\"wstETH_B\"})",
           "interval": "",
@@ -544,7 +531,6 @@
       "type": "timeseries"
     },
     {
-      "datasource": null,
       "description": "Collateral is under risk in the case of collateral to loan ratio is below of 1.6",
       "fieldConfig": {
         "defaults": {
@@ -623,7 +609,6 @@
       },
       "targets": [
         {
-          "datasource": null,
           "exemplar": true,
           "expr": "sum(maker_risks_collateral_percentage{zone=~\"C|D|liquidation\", ilk=\"steCRV_A\"})",
           "interval": "",
@@ -635,7 +620,6 @@
       "type": "timeseries"
     },
     {
-      "datasource": null,
       "fieldConfig": {
         "defaults": {
           "color": {
@@ -767,7 +751,6 @@
       },
       "targets": [
         {
-          "datasource": null,
           "exemplar": true,
           "expr": "maker_risks_collateral_percentage{ilk=\"wstETH_A\"}",
           "interval": "",
@@ -779,7 +762,6 @@
       "type": "timeseries"
     },
     {
-      "datasource": null,
       "fieldConfig": {
         "defaults": {
           "color": {
@@ -911,7 +893,6 @@
       },
       "targets": [
         {
-          "datasource": null,
           "exemplar": true,
           "expr": "maker_risks_collateral_percentage{ilk=\"wstETH_B\"}",
           "interval": "",
@@ -923,7 +904,6 @@
       "type": "timeseries"
     },
     {
-      "datasource": null,
       "fieldConfig": {
         "defaults": {
           "color": {
@@ -1055,7 +1035,6 @@
       },
       "targets": [
         {
-          "datasource": null,
           "exemplar": true,
           "expr": "maker_risks_collateral_percentage{ilk=\"steCRV_A\"}",
           "interval": "",
@@ -1067,7 +1046,6 @@
       "type": "timeseries"
     },
     {
-      "datasource": null,
       "description": "Percent of collateral within 1.1 .. 1.25 ratio range",
       "fieldConfig": {
         "defaults": {
@@ -1145,7 +1123,6 @@
       },
       "targets": [
         {
-          "datasource": null,
           "exemplar": true,
           "expr": "maker_risks_collateral_percentage{zone=\"C\", ilk=\"wstETH_A\"}",
           "interval": "",
@@ -1157,7 +1134,6 @@
       "type": "timeseries"
     },
     {
-      "datasource": null,
       "description": "Percent of collateral within 1.1 .. 1.25 ratio range",
       "fieldConfig": {
         "defaults": {
@@ -1235,7 +1211,6 @@
       },
       "targets": [
         {
-          "datasource": null,
           "exemplar": true,
           "expr": "maker_risks_collateral_percentage{zone=\"C\", ilk=\"wstETH_B\"}",
           "interval": "",
@@ -1247,7 +1222,6 @@
       "type": "timeseries"
     },
     {
-      "datasource": null,
       "description": "Percent of collateral within 1.1 .. 1.25 ratio range",
       "fieldConfig": {
         "defaults": {
@@ -1325,7 +1299,6 @@
       },
       "targets": [
         {
-          "datasource": null,
           "exemplar": true,
           "expr": "maker_risks_collateral_percentage{zone=\"C\", ilk=\"steCRV_A\"}",
           "interval": "",
@@ -1337,7 +1310,6 @@
       "type": "timeseries"
     },
     {
-      "datasource": null,
       "description": "Percent of collateral within 1.0 .. 1.1 ratio range",
       "fieldConfig": {
         "defaults": {
@@ -1415,7 +1387,6 @@
       },
       "targets": [
         {
-          "datasource": null,
           "exemplar": true,
           "expr": "maker_risks_collateral_percentage{zone=\"D\", ilk=\"wstETH_A\"}",
           "interval": "",
@@ -1427,7 +1398,6 @@
       "type": "timeseries"
     },
     {
-      "datasource": null,
       "description": "Percent of collateral within 1.0 .. 1.1 ratio range",
       "fieldConfig": {
         "defaults": {
@@ -1505,7 +1475,6 @@
       },
       "targets": [
         {
-          "datasource": null,
           "exemplar": true,
           "expr": "maker_risks_collateral_percentage{zone=\"D\", ilk=\"wstETH_B\"}",
           "interval": "",
@@ -1517,7 +1486,6 @@
       "type": "timeseries"
     },
     {
-      "datasource": null,
       "description": "Percent of collateral within 1.0 .. 1.1 ratio range",
       "fieldConfig": {
         "defaults": {
@@ -1595,7 +1563,6 @@
       },
       "targets": [
         {
-          "datasource": null,
           "exemplar": true,
           "expr": "maker_risks_collateral_percentage{zone=\"D\", ilk=\"steCRV_A\"}",
           "interval": "",

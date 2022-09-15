@@ -1,8 +1,15 @@
 """Exporter metrics definitions"""
 
+import json
+import logging
+import os
 import platform as pf
 
 from prometheus_client import Counter, Gauge, Histogram
+
+log = logging.getLogger(__name__)
+
+BUILD_INFO_PATH = "build-info.json"
 
 PREFIX = "maker_risks"
 
@@ -16,9 +23,9 @@ PROCESSING_COMPLETED = Gauge(
     "Last one successful parsing cycle completion timestamp",
     ("ilk",),
 )
-API_LAST_BLOCK = Gauge(
-    f"{PREFIX}_api_last_block_num",
-    "Last block number available to fetch from Maker database",
+BOT_LAST_BLOCK = Gauge(
+    f"{PREFIX}_bot_last_block_num",
+    "Last block number fetch by parser",
 )
 ETH_LATEST_BLOCK = Gauge(
     f"{PREFIX}_eth_latest_block_num",
@@ -26,8 +33,7 @@ ETH_LATEST_BLOCK = Gauge(
 )
 FETCH_DURATION = Gauge(
     f"{PREFIX}_fetch_duration",
-    "Collateral type parsing duration",
-    ("ilk",),
+    "Vaults fetching duration",
 )
 ETH_RPC_REQUESTS = Counter(
     f"{PREFIX}_eth_rpc_requests",
@@ -57,14 +63,24 @@ HTTP_REQUESTS = Counter(
 BUILD_INFO = Gauge(
     f"{PREFIX}_build_info",
     "Bot build info",
-    ("pyversion",),
+    ("pyversion", "version", "branch", "commit"),
 )
 
 
 def report_build_info() -> None:
     """Report _build_info metric"""
 
-    pyversion = ".".join(pf.python_version_tuple())
-    BUILD_INFO.labels(
-        pyversion=pyversion,
-    ).set(1)
+    labels = {"pyversion": ".".join(pf.python_version_tuple())}
+
+    if os.path.exists(BUILD_INFO_PATH):
+        try:
+            with open(BUILD_INFO_PATH, mode="r", encoding="utf-8") as f:
+                info = json.load(f)
+                if isinstance(info, dict):
+                    labels["version"] = info.get("version", "unknown")
+                    labels["branch"] = info.get("branch", "unknown")
+                    labels["commit"] = info.get("commit", "unknown")
+        except Exception as ex:  # pylint: disable=broad-except
+            log.error("Unable to read build info file", exc_info=ex)
+
+    BUILD_INFO.labels(**labels).set(1)

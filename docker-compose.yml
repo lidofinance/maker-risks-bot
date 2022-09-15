@@ -1,5 +1,5 @@
 ---
-version: '3'
+version: "3"
 
 services:
   bot:
@@ -9,10 +9,9 @@ services:
     environment:
       NODE_ENDPOINT:
       EXPORTER_PORT:
-      MAKER_DATAAPI_USERNAME:
-      MAKER_DATAAPI_PASSWORD:
       PARSE_INTERVAL:
       LOG_FORMAT: simple
+      LOG_LEVEL: INFO
     restart: unless-stopped
 
   grafana:

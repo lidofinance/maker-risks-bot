@@ -1,36 +1,3 @@
-# [1.6.0](https://github.com/lidofinance/maker-risks-bot/compare/1.5.0...1.6.0) (2022-08-11)
-
-
-### Bug Fixes
-
-* **grafana:** fix timestamps metrics panels ([ea1ab4f](https://github.com/lidofinance/maker-risks-bot/commit/ea1ab4fcce0ae9999267ce30437d64973f64a558))
-* update curl version ([0006ebb](https://github.com/lidofinance/maker-risks-bot/commit/0006ebbffded4161f95ac0ac36196c3eab9e6989))
-
-
-### Features
-
-* **metrics:** improve status metrics and update prometheus rules ([e9374ec](https://github.com/lidofinance/maker-risks-bot/commit/e9374ecd4d854e6f2b8d9259f85a6d3d7bb16fa3))
-
-
-
-# [1.5.0](https://github.com/lidofinance/maker-risks-bot/compare/1.4.0...1.5.0) (2022-07-29)
-
-
-### Bug Fixes
-
-* CI workflows ([1175abb](https://github.com/lidofinance/maker-risks-bot/commit/1175abb27a89f17b4dc7791c82350dfff0617ff0))
-* **grafana:** one more datasource fix ([#8](https://github.com/lidofinance/maker-risks-bot/issues/8)) ([414aecf](https://github.com/lidofinance/maker-risks-bot/commit/414aecf9c0846cbffe2c7a56a96ae1534a0b16a9))
-* retrieve token on demand only ([1cef262](https://github.com/lidofinance/maker-risks-bot/commit/1cef262e96fb2c17f64d40c1cd65e2ccde6b48e0))
-* testnet deploy ([dd496ca](https://github.com/lidofinance/maker-risks-bot/commit/dd496ca27ed5bc6c9e72094dfb8526ce1ef86371))
-
-
-### Features
-
-* **grafana:** add status dashboard ([afdfa3f](https://github.com/lidofinance/maker-risks-bot/commit/afdfa3f2ca48bfda1fbb480712ac998e0b4f1f55))
-* **metrics:** add BUILD_INFO metric ([#19](https://github.com/lidofinance/maker-risks-bot/issues/19)) ([69be2eb](https://github.com/lidofinance/maker-risks-bot/commit/69be2eba999fd0a7b92896fd2ca5197f7b46d70e))
-
-
-
 # [1.4.0](https://github.com/lidofinance/maker-risks-bot/compare/1.3.2...1.4.0) (2022-06-07)
 
 
