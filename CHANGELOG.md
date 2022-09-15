@@ -1,3 +1,25 @@
+# [1.7.0](https://github.com/lidofinance/maker-risks-bot/compare/1.6.0...1.7.0) (2022-09-15)
+
+
+### Bug Fixes
+
+* **grafana:** fix timestamps metrics panels ([0ed067b](https://github.com/lidofinance/maker-risks-bot/commit/0ed067be39650d252eb89c55733d4975684f2ec3))
+* passthrough log level ([ebcdd1f](https://github.com/lidofinance/maker-risks-bot/commit/ebcdd1fb19b21b502150e86c81c813fc669044b7))
+* **prometheus:** update rules thresholds ([515e444](https://github.com/lidofinance/maker-risks-bot/commit/515e44490aa025313617de1e6aa750d8a010b38f))
+* update curl version ([0feef9f](https://github.com/lidofinance/maker-risks-bot/commit/0feef9f67251fde6cd6d6bbd06755f69bb998093))
+* update Dockerfile for the latest Debian ([3773c63](https://github.com/lidofinance/maker-risks-bot/commit/3773c631b1220563a5f9edcfdcdaefc315514004))
+
+
+### Features
+
+* add build-info parsing ([c3ed854](https://github.com/lidofinance/maker-risks-bot/commit/c3ed854a6f06ee53044931f6b15065fff8503e39))
+* **grafana:** udpated blocks related panels ([a5bce64](https://github.com/lidofinance/maker-risks-bot/commit/a5bce64102194f53bfd56aa56721056cd05c0a68))
+* **metrics:** improve status metrics and update prometheus rules ([e873605](https://github.com/lidofinance/maker-risks-bot/commit/e8736058561fec59a1661d3f035179ea637b868d))
+* parse data onchain ([#37](https://github.com/lidofinance/maker-risks-bot/issues/37)) ([91b83f2](https://github.com/lidofinance/maker-risks-bot/commit/91b83f23a8e8d6ef0a9aa4a7af0374bb3be3fa13))
+* remove Maker DataAPI parser ([aba077c](https://github.com/lidofinance/maker-risks-bot/commit/aba077c84be4501d08571c1a98c67c7df121e5a7))
+
+
+
 # [1.6.0](https://github.com/lidofinance/maker-risks-bot/compare/1.5.0...1.6.0) (2022-08-11)
 
 
@@ -90,3 +112,6 @@
 ### Features
 
 * add last updated at metric ([e0d0e6f](https://github.com/lidofinance/maker-risks-bot/commit/e0d0e6fd3ff44802fb629e97eed4be549e46a0cb))
+
+
+
