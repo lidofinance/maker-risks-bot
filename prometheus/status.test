@@ -26,7 +26,7 @@ tests:
   - interval: 15m
     input_series:
       - series: makers_risks_processing_finished_seconds{ilk="wstETH_A"}
-        values: 900+0x10
+        values: 900+0x8 7200+900x8
     alert_rule_test:
       # event should fire
       - eval_time: 1h30m
@@ -38,22 +38,7 @@ tests:
             exp_annotations:
               summary: Stale bot report detected
               description: Last update for wstETH_A was 1h 15m 0s ago
-
-  # MakerDataAPIOutdated
-  - interval: 1m
-    input_series:
-      - series: maker_risks_eth_latest_block_num
-        values: 100+15x89
-      - series: maker_risks_api_last_block_num
-        values: 100+0x89
-    alert_rule_test:
-      # event should fire
-      - eval_time: 1h
-        alertname: MakerDataAPIOutdated
-        exp_alerts:
-          - exp_labels:
-              severity: high
-            exp_annotations:
-              summary: Maker DataAPI is out of sync for 900 blocks
+      - eval_time: 2h15m
+        alertname: StaleBotReport
 
 # vim: set ts=2 sw=2 ft=yaml:

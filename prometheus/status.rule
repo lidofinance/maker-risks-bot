@@ -23,13 +23,4 @@ groups:
             Last update for {{ .Labels.ilk }} was
             {{ $value | humanizeDuration }} ago
 
-      - alert: MakerDataAPIOutdated
-        expr: |  # 3 hours
-          maker_risks_eth_latest_block_num - maker_risks_api_last_block_num
-          > 3 * 60 * 60 / 14
-        labels:
-          severity: high
-        annotations:
-          summary: Maker DataAPI is out of sync for {{ $value }} blocks
-
 # vim: set ts=2 sw=2 ft=yaml:
