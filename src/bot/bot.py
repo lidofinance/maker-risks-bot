@@ -15,6 +15,7 @@ from .metrics import (
     APP_ERRORS,
     BOT_LAST_BLOCK,
     COLLATERALS_ZONES_PERCENT,
+    COLLATERALS_ZONES_VALUE,
     ETH_LATEST_BLOCK,
     FETCH_DURATION,
     PROCESSING_COMPLETED,
@@ -48,8 +49,17 @@ class MakerBot:  # pylint: disable=too-few-public-methods
     def _compute_metrics(self, df: pd.DataFrame, asset: MakerIlk) -> None:
         with APP_ERRORS.labels("calculations").count_exceptions():
             values = calculate_values(df, asset, self.parser)
-        for zone, percent in values.items():
-            COLLATERALS_ZONES_PERCENT.labels(asset.symbol, zone).set(percent)
+
+        for zone, stat in values.items():
+            COLLATERALS_ZONES_VALUE.labels(
+                asset.symbol,
+                zone,
+            ).set(stat["ilk"])
+            COLLATERALS_ZONES_PERCENT.labels(
+                asset.symbol,
+                zone,
+            ).set(stat["percent"])
+
         self.log.debug("Metrics has been updated\n%s", self.pprint.pformat(values))
 
     @staticmethod

@@ -13,8 +13,12 @@ groups:
         annotations:
           summary: High percent of Maker {{ .Labels.ilk }} in dangerous zone 🔥
           description: >-
-            It is {{ $value | printf "%.1f" }}% of {{ .Labels.ilk }}
-            positions on Maker in risky zone!
+            It is {{ $value | printf "%.1f" }}% (
+            {{- with printf "sum(maker_risks_collateral_value{zone=~'C|D|liquidation',ilk=%q})" .Labels.ilk | query -}}
+            {{- . | first | value -}}
+            {{- end }}
+            {{ .Labels.ilk }})
+            of total {{ .Labels.ilk }}-collateral on Maker in risky zone!
 
       - alert: MakerCollateralsLiquidation
         expr: maker_risks_collateral_percentage{zone="liquidation"} > 0
