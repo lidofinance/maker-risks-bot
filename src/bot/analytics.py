@@ -74,7 +74,7 @@ def calculate_values(
     data: pd.DataFrame,
     asset: MakerIlk,
     parser: BaseParser,
-) -> dict[str, float]:
+) -> dict[str, dict]:
     """Calculate risk distribution.
     Almost as is from related jupyter notebook."""
 
@@ -85,9 +85,14 @@ def calculate_values(
 
     values = {}
     for label in RISK_LABELS:
-        value: float = 0
+        value = {
+            "percent": 0,
+            "ilk": 0,
+        }
+
         with suppress(KeyError):
-            value = risk_distr.at[label, "percent"]
+            value = risk_distr.loc[label].to_dict()
+
         values[label] = value
 
     return values

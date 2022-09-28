@@ -18,6 +18,11 @@ COLLATERALS_ZONES_PERCENT = Gauge(
     "Maker collaterals percentage distribution",
     ("ilk", "zone"),
 )
+COLLATERALS_ZONES_VALUE = Gauge(
+    f"{PREFIX}_collateral_value",
+    "Maker collaterals loans values distribution",
+    ("ilk", "zone"),
+)
 PROCESSING_COMPLETED = Gauge(
     f"{PREFIX}_processing_finished_seconds",
     "Last one successful parsing cycle completion timestamp",
