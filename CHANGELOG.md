@@ -1,3 +1,17 @@
+# [1.8.0](https://github.com/lidofinance/maker-risks-bot/compare/1.7.0...1.8.0) (2022-09-29)
+
+
+### Bug Fixes
+
+* upd rules ([e06aee9](https://github.com/lidofinance/maker-risks-bot/commit/e06aee9969f1b2aa5344e62df98c6b01d5762441))
+
+
+### Features
+
+* expose loans value to alerts ([6521035](https://github.com/lidofinance/maker-risks-bot/commit/6521035e56c3ac8079bf2a4f62354893d01e09e7))
+
+
+
 # [1.7.0](https://github.com/lidofinance/maker-risks-bot/compare/1.6.0...1.7.0) (2022-09-15)
 
 
@@ -96,22 +110,6 @@
 * **metrics:** add ETH RPC requests metrics ([e756df0](https://github.com/lidofinance/maker-risks-bot/commit/e756df01824f8f42fd02b42a23750370d131da3d))
 * **metrics:** add HTTP requests metrics ([016818a](https://github.com/lidofinance/maker-risks-bot/commit/016818ac80a51d3b131df5bb4938ab1cc730c657))
 * **metrics:** add misc metrics ([3e1e6f3](https://github.com/lidofinance/maker-risks-bot/commit/3e1e6f36fadfd36fa1f429dcd2d1d5ebc9685112))
-
-
-
-# [1.1.0](https://github.com/lidofinance/maker-risks-bot/compare/e0d0e6fd3ff44802fb629e97eed4be549e46a0cb...1.1.0) (2022-05-20)
-
-
-### Bug Fixes
-
-* fix dev workflow name ([60353eb](https://github.com/lidofinance/maker-risks-bot/commit/60353eb669db0aee4905a63e68947628dc4cf8fe))
-* fix workflows names ([9b8bb7a](https://github.com/lidofinance/maker-risks-bot/commit/9b8bb7a04d93f9c750a8b23ffcbc4928d31deda8))
-* update prometheus rules for ilks sharding ([ac3ee81](https://github.com/lidofinance/maker-risks-bot/commit/ac3ee813fff80f2febf630bf40af904224c73314))
-
-
-### Features
-
-* add last updated at metric ([e0d0e6f](https://github.com/lidofinance/maker-risks-bot/commit/e0d0e6fd3ff44802fb629e97eed4be549e46a0cb))
 
 
 
