@@ -13,7 +13,7 @@ tests:
       - series: maker_risks_collateral_value{zone="D", ilk="wstETH"}
         values: 20+0x10
       - series: maker_risks_collateral_value{zone="liquidation", ilk="wstETH"}
-        values: 2+0x10
+        values: 2.31415926+0x10
     alert_rule_test:
       # no fire
       - eval_time: 5m
@@ -27,7 +27,7 @@ tests:
               ilk: wstETH
             exp_annotations:
               summary: High percent of Maker wstETH in dangerous zone 🔥
-              description: It is 20.0% (42 wstETH) of total wstETH-collateral on Maker in risky zone!
+              description: It is 20.0% (42.3 wstETH) of total wstETH-collateral on Maker in risky zone!
 
   # MakerCollateralsLiquidation
   - interval: 5m
