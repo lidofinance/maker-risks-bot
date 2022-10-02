@@ -15,7 +15,7 @@ groups:
           description: >-
             It is {{ $value | printf "%.1f" }}% (
             {{- with printf "sum(maker_risks_collateral_value{zone=~'C|D|liquidation',ilk=%q})" .Labels.ilk | query -}}
-            {{- . | first | value -}}
+            {{- . | first | value | printf "%.1f" -}}
             {{- end }}
             {{ .Labels.ilk }})
             of total {{ .Labels.ilk }}-collateral on Maker in risky zone!
