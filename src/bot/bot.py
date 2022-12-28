@@ -8,7 +8,7 @@ from typing import Iterable
 import pandas as pd
 
 from .analytics import calculate_values
-from .config import PARSE_INTERVAL
+from .config import MAIN_ERROR_COOLDOWN, PARSE_INTERVAL
 from .eth import w3
 from .ilks import STECRV_A, WSTETH_A, WSTETH_B, MakerIlk
 from .metrics import (
@@ -38,6 +38,32 @@ class MakerBot:  # pylint: disable=too-few-public-methods
 
         self.parser = OnChainParser(assets=self.assets)  # type: ignore
 
+    def run(self) -> None:
+        """Main loop of bot"""
+
+        while True:
+
+            try:
+                results = self._run()
+
+                # set block number metric for status test
+                ETH_LATEST_BLOCK.set(w3.eth.block_number)
+                BOT_LAST_BLOCK.set(0 if self.parser.block == "latest" else self.parser.block)
+            except Exception as ex:  # pylint: disable=broad-except
+                APP_ERRORS.labels("fetching").inc()
+                self._on_error("Fetching data has been failed", ex)
+            else:
+                for asset, df in results:
+                    try:
+                        self._compute_metrics(df, asset)
+                        PROCESSING_COMPLETED.labels(asset.symbol).set_to_current_time()
+
+                        self.log.info("%s ilk processed", asset.symbol)
+                    except Exception as ex:  # pylint: disable=broad-except
+                        self._on_error(f"Processing {asset.symbol} collateral has been failed", ex)
+                    else:
+                        self._on_success()
+
     def _fetch_block(self) -> None:
         self.log.info("Fetching has been started")
 
@@ -62,36 +88,11 @@ class MakerBot:  # pylint: disable=too-few-public-methods
 
         self.log.debug("Metrics has been updated\n%s", self.pprint.pformat(values))
 
-    @staticmethod
-    def _settle() -> None:
+    def _on_success(self) -> None:
+        self.log.info("Wait for %d seconds for the next fetch", PARSE_INTERVAL)
         time.sleep(PARSE_INTERVAL)
 
-    def run(self) -> None:
-        """Main loop of bot"""
-
-        while True:
-
-            try:
-                results = self._run()
-
-                # set block number metric for status test
-                ETH_LATEST_BLOCK.set(w3.eth.block_number)
-                BOT_LAST_BLOCK.set(0 if self.parser.block == "latest" else self.parser.block)
-            except Exception as ex:  # pylint: disable=broad-except
-                self.log.error("Fetching data has been failed", exc_info=ex)
-                APP_ERRORS.labels("fetching").inc()
-            else:
-                for asset, df in results:
-                    try:
-                        self._compute_metrics(df, asset)
-                        PROCESSING_COMPLETED.labels(asset.symbol).set_to_current_time()
-
-                        self.log.info("%s ilk processed", asset.symbol)
-                    except Exception as ex:  # pylint: disable=broad-except
-                        self.log.error(
-                            "Processing %s collateral has been failed",
-                            asset.symbol,
-                            exc_info=ex,
-                        )
-
-            self._settle()
+    def _on_error(self, msg: str, ex: Exception) -> None:
+        self.log.error(msg, exc_info=ex)
+        self.log.info("Wait for %d seconds before the next try", MAIN_ERROR_COOLDOWN)
+        time.sleep(MAIN_ERROR_COOLDOWN)
