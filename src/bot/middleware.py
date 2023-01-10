@@ -6,9 +6,11 @@ import logging
 from typing import Any, Callable
 
 from requests import HTTPError, Response
+from retry.api import retry_call
 from web3 import Web3
 from web3.types import RPCEndpoint, RPCResponse
 
+from .consts import HTTP_REQUESTS_DELAY, HTTP_REQUESTS_RETRY
 from .metrics import ETH_RPC_REQUESTS, ETH_RPC_REQUESTS_DURATION
 
 log = logging.getLogger(__name__)
@@ -66,5 +68,22 @@ def metrics_collector(
             ).inc()
 
             return response
+
+    return middleware
+
+
+def retryable(
+    make_request: Callable[[RPCEndpoint, Any], RPCResponse], w3: "Web3"
+) -> Callable[[RPCEndpoint, Any], RPCResponse]:
+    """Constructs a middleware which retries requests to the endpoint"""
+
+    def middleware(method: RPCEndpoint, params: Any) -> RPCResponse:
+
+        return retry_call(
+            make_request,
+            (method, params),
+            tries=HTTP_REQUESTS_RETRY,
+            delay=HTTP_REQUESTS_DELAY,
+        )
 
     return middleware
