@@ -11,7 +11,7 @@ from web3.contract import Contract
 from web3_multi_provider import MultiProvider
 
 from .config import FALLBACK_NODE_ENDPOINT, NODE_ENDPOINT
-from .middleware import chain_id_mock, metrics_collector
+from .middleware import chain_id_mock, metrics_collector, retryable
 
 log = logging.getLogger(__name__)
 
@@ -38,6 +38,7 @@ else:
 
 w3 = Web3(provider)
 w3.middleware_onion.add(metrics_collector)
+w3.middleware_onion.add(retryable)
 w3.middleware_onion.add(chain_id_mock)
 
 
