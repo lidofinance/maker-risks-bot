@@ -43,15 +43,17 @@ class MakerBot:  # pylint: disable=too-few-public-methods
 
         while True:
 
+            failed = False
+
             try:
                 results = self._run()
-
                 # set block number metric for status test
                 ETH_LATEST_BLOCK.set(w3.eth.block_number)
                 BOT_LAST_BLOCK.set(0 if self.parser.block == "latest" else self.parser.block)
             except Exception as ex:  # pylint: disable=broad-except
+                self.log.error("Fetching data has been failed", exc_info=ex)
                 APP_ERRORS.labels("fetching").inc()
-                self._on_error("Fetching data has been failed", ex)
+                failed = True
             else:
                 for asset, df in results:
                     try:
@@ -60,9 +62,14 @@ class MakerBot:  # pylint: disable=too-few-public-methods
 
                         self.log.info("%s ilk processed", asset.symbol)
                     except Exception as ex:  # pylint: disable=broad-except
-                        self._on_error(f"Processing {asset.symbol} collateral has been failed", ex)
-                    else:
-                        self._on_success()
+                        self.log.error("Processing %s collateral has been failed", asset.symbol, exc_info=ex)
+                        failed = True
+
+            if failed:
+                self._on_error()
+                continue
+            self._on_success()
+
 
     def _fetch_block(self) -> None:
         self.log.info("Fetching has been started")
@@ -92,7 +99,6 @@ class MakerBot:  # pylint: disable=too-few-public-methods
         self.log.info("Wait for %d seconds for the next fetch", PARSE_INTERVAL)
         time.sleep(PARSE_INTERVAL)
 
-    def _on_error(self, msg: str, ex: Exception) -> None:
-        self.log.error(msg, exc_info=ex)
+    def _on_error(self) -> None:
         self.log.info("Wait for %d seconds before the next try", MAIN_ERROR_COOLDOWN)
         time.sleep(MAIN_ERROR_COOLDOWN)
