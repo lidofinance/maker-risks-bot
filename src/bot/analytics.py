@@ -23,7 +23,7 @@ def prepare_data(df: pd.DataFrame, asset: MakerIlk, parser: BaseParser) -> pd.Da
     df.rename(columns={"art": "debt", "ink": "collateral"}, inplace=True)
 
     df.fillna(0, inplace=True)
-    # df = pd.DataFrame(data=df.query("collateral > 0 and debt > 0"))
+    df = pd.DataFrame(data=df.query("collateral > 0 and debt > 0"))
 
     # rate => stablecoin debt multiplier (e.g. 1.015)
     # spot => maximum stablecoin allowed per unit of collateral (e.g. 1889.2)
