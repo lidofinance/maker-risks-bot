@@ -52,7 +52,7 @@ class MakerBot:  # pylint: disable=too-few-public-methods
                 self._on_error("Fetching data has been failed", ex)
                 continue
 
-            errors = []
+            errors: list[tuple[MakerIlk, Exception]] = []
             for asset, df in results:
                 try:  # try to compute metrics for each asset
                     self._compute_metrics(df, asset)
@@ -62,8 +62,8 @@ class MakerBot:  # pylint: disable=too-few-public-methods
                 except Exception as ex:  # pylint: disable=broad-except
                     errors.append((asset, ex))
             if errors:
-                for error in errors:
-                    self.log.error("Processing %s has been failed", error[0].symbol, exc_info=error[1])
+                for asset, ex in errors:
+                    self.log.error("Processing %s has been failed", asset.symbol, exc_info=ex)
                     APP_ERRORS.labels("calculations").inc()
                 self._on_error("Processing has been failed", Exception("See logs for details"))
                 continue
