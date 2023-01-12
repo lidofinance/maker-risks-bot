@@ -1,3 +1,25 @@
+# [1.9.0](https://github.com/lidofinance/maker-risks-bot/compare/1.8.0...1.9.0) (2023-01-12)
+
+
+### Bug Fixes
+
+* add fallback for eth provider ([c5cad3d](https://github.com/lidofinance/maker-risks-bot/commit/c5cad3d9fc5fab7d93a35a7b66fba8eb832b0f6b))
+* division by zero ([0bc90b4](https://github.com/lidofinance/maker-risks-bot/commit/0bc90b4662a8b8a317aa6c047d007166fae8bf49))
+* fix main cycle's error handle ([9245d7b](https://github.com/lidofinance/maker-risks-bot/commit/9245d7bc6d90bc756fc8893ef46585cf7ad05041))
+* remove unused computation ([0d9bac6](https://github.com/lidofinance/maker-risks-bot/commit/0d9bac6b1eef5fed09ce5b6e65f8f3623924fdf4))
+* upd rules ([3f7c60d](https://github.com/lidofinance/maker-risks-bot/commit/3f7c60dc2f5af7cf656fffb762c9e4fce9b41b6e))
+* use loan value round ([bb24b88](https://github.com/lidofinance/maker-risks-bot/commit/bb24b88dfdfce666cfd2286e46dcb442179735bd))
+
+
+### Features
+
+* add retryable middleware ([a90c8f3](https://github.com/lidofinance/maker-risks-bot/commit/a90c8f352a76512cbe0a6c0c0af385907daa1608))
+* expose loans value to alerts ([56d7fff](https://github.com/lidofinance/maker-risks-bot/commit/56d7fff2e399e1d1defd3c5b91c7dd9c0d038de0))
+* rethink main loop ([b5cc629](https://github.com/lidofinance/maker-risks-bot/commit/b5cc6295b89da4aa93ee60dbb6d557337bb7e422))
+* update middleware ([5778d40](https://github.com/lidofinance/maker-risks-bot/commit/5778d40380efb254fe7d46cfd99eb067dc9a6bc3))
+
+
+
 # [1.8.0](https://github.com/lidofinance/maker-risks-bot/compare/1.7.0...1.8.0) (2022-09-29)
 
 
@@ -99,17 +121,23 @@
 
 ### Bug Fixes
 
-* cleanup environment variables ([eec16de](https://github.com/lidofinance/maker-risks-bot/commit/eec16def08718b161537f717f72a3883caa5dacd))
-* fix wrong time interval ([5cae0cf](https://github.com/lidofinance/maker-risks-bot/commit/5cae0cf20b8e718bea0ce9132546b478bba5cb6c))
 * replace datasource with null ([1fc7490](https://github.com/lidofinance/maker-risks-bot/commit/1fc7490d2f14252f5edcd77335db6f087549945d))
 
 
 ### Features
 
-* add wstETH_B ilk ([982e282](https://github.com/lidofinance/maker-risks-bot/commit/982e28241d48fb8cc72d6db8c3b490968f247155))
 * **metrics:** add ETH RPC requests metrics ([e756df0](https://github.com/lidofinance/maker-risks-bot/commit/e756df01824f8f42fd02b42a23750370d131da3d))
 * **metrics:** add HTTP requests metrics ([016818a](https://github.com/lidofinance/maker-risks-bot/commit/016818ac80a51d3b131df5bb4938ab1cc730c657))
 * **metrics:** add misc metrics ([3e1e6f3](https://github.com/lidofinance/maker-risks-bot/commit/3e1e6f36fadfd36fa1f429dcd2d1d5ebc9685112))
+
+
+
+## [1.2.1](https://github.com/lidofinance/maker-risks-bot/compare/1.2.0...1.2.1) (2022-05-30)
+
+
+### Bug Fixes
+
+* fix wrong time interval ([5cae0cf](https://github.com/lidofinance/maker-risks-bot/commit/5cae0cf20b8e718bea0ce9132546b478bba5cb6c))
 
 
 
