@@ -62,6 +62,7 @@ class OnChainParser(BaseParser):
         block = self.cdps_map_updated_at or min(asset.created for asset in self.assets)
         batch_size = 100_000
 
+        # schedule tasks
         batches = []
         while block <= self.block:
             batches.append(self._cdps_batch(block, block + batch_size))

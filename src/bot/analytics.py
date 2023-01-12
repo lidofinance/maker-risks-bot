@@ -23,7 +23,7 @@ def prepare_data(df: pd.DataFrame, asset: MakerIlk, parser: BaseParser) -> pd.Da
     df.rename(columns={"art": "debt", "ink": "collateral"}, inplace=True)
 
     df.fillna(0, inplace=True)
-    # df = pd.DataFrame(data=df.query("collateral > 0 and debt > 0"))
+    df = pd.DataFrame(data=df.query("collateral > 0 and debt > 0"))
 
     # rate => stablecoin debt multiplier (e.g. 1.015)
     # spot => maximum stablecoin allowed per unit of collateral (e.g. 1889.2)
@@ -63,8 +63,8 @@ def get_risks(df: pd.DataFrame, ratio_list: List[float]) -> pd.DataFrame:
 def get_distr(data) -> pd.DataFrame:
     """This function calculates and returns a pivot table by risk levels"""
 
-    risk_distr = data.pivot_table(index="risk_rating", values=["collateral"], aggfunc=["sum", "count"])
-    risk_distr.columns = ["ilk", "cnt"]
+    risk_distr = data.pivot_table(index="risk_rating", values=["collateral"], aggfunc=["sum"])
+    risk_distr.columns = ["ilk"]
     risk_distr["percent"] = (risk_distr["ilk"] / risk_distr["ilk"].sum()) * 100
 
     return risk_distr
