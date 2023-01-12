@@ -70,7 +70,6 @@ class MakerBot:  # pylint: disable=too-few-public-methods
                 continue
             self._on_success()
 
-
     def _fetch_block(self) -> None:
         self.log.info("Fetching has been started")
 
