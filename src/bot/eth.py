@@ -8,10 +8,9 @@ from pathlib import Path
 
 from web3 import HTTPProvider, Web3
 from web3.contract import Contract
-from web3_multi_provider import MultiProvider
 
 from .config import FALLBACK_NODE_ENDPOINT, NODE_ENDPOINT
-from .middleware import chain_id_mock, metrics_collector, retryable
+from .middleware import chain_id_mock, construct_fallback_provider_middleware, metrics_collector, retryable
 
 log = logging.getLogger(__name__)
 
@@ -25,20 +24,11 @@ CROPPER_ADDRESS = "0x8377CD01a5834a6EaD3b7efb482f678f2092b77e"
 VAT_ADDRESS = "0x35D1b3F3D7966A1DFe207aa4514C12a259A0492B"
 
 
-if FALLBACK_NODE_ENDPOINT:
-    provider = MultiProvider(
-        [
-            NODE_ENDPOINT,
-            FALLBACK_NODE_ENDPOINT,
-        ]
-    )
-else:
-    # use an usual provider instead of MultiProvider to be able to switch seamlessly in case of errors
-    provider = HTTPProvider(NODE_ENDPOINT)
-
-w3 = Web3(provider)
+w3 = Web3(HTTPProvider(NODE_ENDPOINT))
 w3.middleware_onion.add(metrics_collector)
 w3.middleware_onion.add(retryable)
+if FALLBACK_NODE_ENDPOINT:
+    w3.middleware_onion.add(construct_fallback_provider_middleware(w3, FALLBACK_NODE_ENDPOINT))
 w3.middleware_onion.add(chain_id_mock)
 
 
