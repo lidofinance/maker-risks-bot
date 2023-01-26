@@ -17,7 +17,6 @@ pandas = "^1.4.1"
 unsync = "^1.4.0"
 numpy = "^1.22.3"
 python-json-logger = "^2.0.2"
-web3-multi-provider = "^0.4.2"
 
 [tool.poetry.dev-dependencies]
 black = "^22.3.0"

@@ -1773,21 +1773,6 @@ linter = ["flake8 (==3.8.3)", "isort (>=4.2.15,<4.3.5)", "mypy (==0.910)", "type
 tester = ["eth-tester[py-evm] (==v0.6.0-beta.7)", "py-geth (>=3.9.1,<4)"]
 
 [[package]]
-name = "web3-multi-provider"
-version = "0.4.2"
-description = "Web3py provider that makes it easy to switch between different blockchain nodes to make sure application will be be online if main blockchain node will be unavailable."
-category = "main"
-optional = false
-python-versions = ">=3.7.10,<4"
-files = [
-    {file = "web3-multi-provider-0.4.2.tar.gz", hash = "sha256:cc4b09f2fc429e6e5a08f0207fe3649c0bd05969b62af6515877939d1ec9f0b3"},
-    {file = "web3_multi_provider-0.4.2-py3-none-any.whl", hash = "sha256:ddec31ba65695f085e3577031f5da54235453bb8776ff6db87bfd18f1ec7f805"},
-]
-
-[package.dependencies]
-web3 = ">=5.22.0,<6"
-
-[[package]]
 name = "websockets"
 version = "9.1"
 description = "An implementation of the WebSocket Protocol (RFC 6455 & 7692)"
@@ -1995,4 +1980,4 @@ multidict = ">=4.0"
 [metadata]
 lock-version = "2.0"
 python-versions = "^3.10"
-content-hash = "c8602e4c0b7a97586fe5e242735803a374bfaf3ec4414f1cbc0206c8a8d3030c"
+content-hash = "15d4433d63475ba33983702cbb40320ba64c44d66d68ea5f913e3732dd574525"

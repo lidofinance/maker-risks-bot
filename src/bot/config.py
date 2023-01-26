@@ -54,10 +54,6 @@ def getenv(name: str, astype: Type[T] = str, default: T = D, required: bool = Fa
 # === Required ===
 
 NODE_ENDPOINT = getenv("NODE_ENDPOINT", required=True)
-if "wss://" in NODE_ENDPOINT:
-    # WSS provider seems to be broken in python 3.10 and
-    # doesn't work in the current flow. Magic asyncio fails happen.
-    raise RuntimeError("Only http[s] Web3 provider endpoint supported")
 
 # === Optional ===
 
@@ -65,3 +61,8 @@ FALLBACK_NODE_ENDPOINT = getenv("FALLBACK_NODE_ENDPOINT", str, default="")
 PARSE_INTERVAL = getenv("PARSE_INTERVAL", int, 15 * 60)  # 15 min
 EXPORTER_PORT = getenv("EXPORTER_PORT", int, default=8080)
 MAIN_ERROR_COOLDOWN = getenv("MAIN_ERROR_COOLDOWN", int, default=15)
+
+if "wss://" in NODE_ENDPOINT or "wss://" in FALLBACK_NODE_ENDPOINT:
+    # WSS provider seems to be broken in python 3.10 and
+    # doesn't work in the current flow. Magic asyncio fails happen.
+    raise RuntimeError("Only http[s] Web3 provider endpoint supported")

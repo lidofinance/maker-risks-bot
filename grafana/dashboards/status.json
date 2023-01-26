@@ -22,8 +22,6 @@
   "editable": true,
   "fiscalYearStartMonth": 0,
   "graphTooltip": 0,
-  "id": 3,
-  "iteration": 1662993657760,
   "links": [
     {
       "asDropdown": false,
@@ -577,8 +575,8 @@
       "options": {
         "colorMode": "none",
         "graphMode": "none",
-        "justifyMode": "center",
-        "orientation": "auto",
+        "justifyMode": "auto",
+        "orientation": "vertical",
         "reduceOptions": {
           "calcs": [
             "lastNotNull"
@@ -590,15 +588,17 @@
           "titleSize": 16,
           "valueSize": 16
         },
-        "textMode": "value"
+        "textMode": "value_and_name"
       },
       "pluginVersion": "8.4.6",
       "targets": [
         {
+          "editorMode": "code",
           "exemplar": true,
-          "expr": "sum(increase(maker_risks_eth_rpc_requests_total{env=~\"$env\",source=~\"$source\"}[$__range]))",
+          "expr": "sum by(provider) (increase(maker_risks_eth_rpc_requests_total{env=~\"$env\",source=~\"$source\"}[$__range]))",
           "interval": "",
-          "legendFormat": "",
+          "legendFormat": "{{provider}}",
+          "range": true,
           "refId": "A"
         }
       ],
@@ -636,11 +636,11 @@
       "options": {
         "colorMode": "none",
         "graphMode": "none",
-        "justifyMode": "center",
-        "orientation": "auto",
+        "justifyMode": "auto",
+        "orientation": "vertical",
         "reduceOptions": {
           "calcs": [
-            "lastNotNull"
+            "last"
           ],
           "fields": "",
           "values": false
@@ -649,15 +649,17 @@
           "titleSize": 16,
           "valueSize": 16
         },
-        "textMode": "value"
+        "textMode": "value_and_name"
       },
       "pluginVersion": "8.4.6",
       "targets": [
         {
+          "editorMode": "code",
           "exemplar": true,
-          "expr": "sum(increase(maker_risks_eth_rpc_requests_total{code!=\"0\",env=~\"$env\",source=~\"$source\"}[$__range]))",
+          "expr": "sum by (provider) (increase(maker_risks_eth_rpc_requests_total{code!=\"0\",env=~\"$env\",source=~\"$source\"}[$__range]))",
           "interval": "",
-          "legendFormat": "",
+          "legendFormat": "{{provider}}",
+          "range": true,
           "refId": "A"
         }
       ],
@@ -674,7 +676,8 @@
       },
       "id": 10,
       "panels": [],
-      "title": "Requests",
+      "repeat": "provider",
+      "title": "Requests via $provider",
       "type": "row"
     },
     {
@@ -707,7 +710,7 @@
       "targets": [
         {
           "exemplar": false,
-          "expr": "sum(increase(maker_risks_eth_rpc_requests_duration_bucket{env=~\"$env\",source=~\"$source\"}[$__interval])) by (le)",
+          "expr": "sum(increase(maker_risks_eth_rpc_requests_duration_bucket{env=~\"$env\",source=~\"$source\",provider=\"$provider\"}[$__interval])) by (le)",
           "format": "heatmap",
           "instant": false,
           "interval": "",
@@ -808,7 +811,7 @@
       "targets": [
         {
           "exemplar": true,
-          "expr": "sum(increase(maker_risks_eth_rpc_requests_total{code!=\"0\",env=~\"$env\",source=~\"$source\"}[1m])) by (code)",
+          "expr": "sum(increase(maker_risks_eth_rpc_requests_total{code!=\"0\",env=~\"$env\",source=~\"$source\",provider=\"$provider\"}[1m])) by (code)",
           "format": "time_series",
           "interval": "",
           "legendFormat": "code={{code}}",
@@ -837,7 +840,7 @@
             "h": 8,
             "w": 12,
             "x": 0,
-            "y": 21
+            "y": 15
           },
           "id": 14,
           "options": {
@@ -872,7 +875,7 @@
             "h": 8,
             "w": 12,
             "x": 12,
-            "y": 21
+            "y": 15
           },
           "id": 16,
           "options": {
@@ -953,7 +956,8 @@
                 "mode": "absolute",
                 "steps": [
                   {
-                    "color": "green"
+                    "color": "green",
+                    "value": null
                   }
                 ]
               },
@@ -965,7 +969,7 @@
             "h": 6,
             "w": 12,
             "x": 0,
-            "y": 22
+            "y": 16
           },
           "id": 24,
           "options": {
@@ -1036,7 +1040,8 @@
                 "mode": "absolute",
                 "steps": [
                   {
-                    "color": "green"
+                    "color": "green",
+                    "value": null
                   },
                   {
                     "color": "red",
@@ -1052,7 +1057,7 @@
             "h": 6,
             "w": 12,
             "x": 12,
-            "y": 22
+            "y": 16
           },
           "id": 26,
           "options": {
@@ -1135,7 +1140,7 @@
             "h": 6,
             "w": 12,
             "x": 0,
-            "y": 28
+            "y": 22
           },
           "id": 42,
           "options": {
@@ -1222,7 +1227,7 @@
             "h": 6,
             "w": 12,
             "x": 12,
-            "y": 28
+            "y": 22
           },
           "id": 44,
           "options": {
@@ -1811,7 +1816,6 @@
         "current": {
           "selected": true,
           "text": [
-            "All"
           ],
           "value": [
             "$__all"
@@ -1882,11 +1886,28 @@
         "query": "",
         "skipUrlSync": false,
         "type": "textbox"
+      },
+      {
+        "definition": "label_values(maker_risks_eth_rpc_requests_total{env=~\"$env\",source=~\"$source\"}, provider)",
+        "hide": 2,
+        "includeAll": false,
+        "multi": false,
+        "name": "provider",
+        "options": [],
+        "query": {
+          "query": "label_values(maker_risks_eth_rpc_requests_total{env=~\"$env\",source=~\"$source\"}, provider)",
+          "refId": "StandardVariableQuery"
+        },
+        "refresh": 1,
+        "regex": "",
+        "skipUrlSync": false,
+        "sort": 1,
+        "type": "query"
       }
     ]
   },
   "time": {
-    "from": "now-1h",
+    "from": "now-15m",
     "to": "now"
   },
   "timepicker": {},
