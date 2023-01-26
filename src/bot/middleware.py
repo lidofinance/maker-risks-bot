@@ -46,11 +46,12 @@ def metrics_collector(
     def middleware(method: RPCEndpoint, params: Any) -> RPCResponse:
 
         try:
-            with ETH_RPC_REQUESTS_DURATION.time():
+            with ETH_RPC_REQUESTS_DURATION.labels(provider=_get_provider_domain_from_w3(w3)).time():
                 response = make_request(method, params)
         except HTTPError as ex:
             failed: Response = ex.response
             ETH_RPC_REQUESTS.labels(
+                provider=_get_provider_domain_from_w3(w3),
                 method=method,
                 code=failed.status_code,
             ).inc()
@@ -63,6 +64,7 @@ def metrics_collector(
             if isinstance(error, dict):
                 code = error.get("code") or code
             ETH_RPC_REQUESTS.labels(
+                provider=_get_provider_domain_from_w3(w3),
                 method=method,
                 code=code,
             ).inc()
@@ -87,3 +89,10 @@ def retryable(
         )
 
     return middleware
+
+
+def _get_provider_domain_from_w3(w3: "Web3") -> str:
+    """Get provider domain from Web3 object"""
+
+    uri = getattr(w3.provider, "endpoint_uri", "unknown")
+    return uri.split("://").pop().split("/").pop(0)
