@@ -11,19 +11,17 @@ from web3.contract import Contract
 from web3_multi_provider import MultiProvider
 
 from .config import FALLBACK_NODE_ENDPOINT, NODE_ENDPOINT
-from .middleware import chain_id_mock, metrics_collector, retryable
+from .consts import CDP_MANAGER_ADDRESS, CDP_REGISTRY_ADDRESS, CROPPER_ADDRESS, VAT_ADDRESS
+from .middleware import chain_id_mock, metered_rpc_request, retryable
 
 log = logging.getLogger(__name__)
 
 ABI_HOME = Path(os.path.dirname(__file__), "abi")
 
-# The list of deployed contracts is here:
-# https://chainlog.makerdao.com/api/mainnet/active.json
-CDP_REGISTRY_ADDRESS = "0xBe0274664Ca7A68d6b5dF826FB3CcB7c620bADF3"
-CDP_MANAGER_ADDRESS = "0x5ef30b9986345249bc32d8928B7ee64DE9435E39"
-CROPPER_ADDRESS = "0x8377CD01a5834a6EaD3b7efb482f678f2092b77e"
-VAT_ADDRESS = "0x35D1b3F3D7966A1DFe207aa4514C12a259A0492B"
-
+# we cannot use middleware here, because MultiHTTPProvider's make_request is short circuited
+# to itself and makes metering from middleware useless: one call produces at up to N calls
+# to the underlying providers, where N is the number of fallbacks
+HTTPProvider.make_request = metered_rpc_request(HTTPProvider.make_request)
 
 if FALLBACK_NODE_ENDPOINT:
     provider = MultiProvider(
@@ -37,7 +35,6 @@ else:
     provider = HTTPProvider(NODE_ENDPOINT)
 
 w3 = Web3(provider)
-w3.middleware_onion.add(metrics_collector)
 w3.middleware_onion.add(retryable)
 w3.middleware_onion.add(chain_id_mock)
 

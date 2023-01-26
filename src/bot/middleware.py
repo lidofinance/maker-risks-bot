@@ -5,11 +5,13 @@
 import logging
 from typing import Any, Callable
 
+from pandas.io.common import functools
 from requests import HTTPError, Response
 from retry.api import retry_call
-from web3 import Web3
+from web3 import HTTPProvider, Web3
 from web3.types import RPCEndpoint, RPCResponse
 
+from .config import FALLBACK_NODE_ENDPOINT
 from .consts import HTTP_REQUESTS_DELAY, HTTP_REQUESTS_RETRY
 from .metrics import ETH_RPC_REQUESTS, ETH_RPC_REQUESTS_DURATION
 
@@ -38,20 +40,21 @@ def chain_id_mock(
     return middleware
 
 
-def metrics_collector(
-    make_request: Callable[[RPCEndpoint, Any], RPCResponse], w3: "Web3"
-) -> Callable[[RPCEndpoint, Any], RPCResponse]:
-    """Constructs a middleware which measure requests parameters"""
+def metered_rpc_request(make_request):
+    """Decorator which measures requests parameters"""
 
-    def middleware(method: RPCEndpoint, params: Any) -> RPCResponse:
+    @functools.wraps(make_request)
+    def wrapped(self, method: RPCEndpoint, params: Any) -> RPCResponse:
+
+        _provider = _get_domain_from_uri(self.endpoint_uri)
 
         try:
-            with ETH_RPC_REQUESTS_DURATION.labels(provider=_get_provider_domain_from_w3(w3)).time():
-                response = make_request(method, params)
+            with ETH_RPC_REQUESTS_DURATION.labels(provider=_provider).time():
+                response = make_request(self, method, params)
         except HTTPError as ex:
             failed: Response = ex.response
             ETH_RPC_REQUESTS.labels(
-                provider=_get_provider_domain_from_w3(w3),
+                provider=_provider,
                 method=method,
                 code=failed.status_code,
             ).inc()
@@ -64,14 +67,14 @@ def metrics_collector(
             if isinstance(error, dict):
                 code = error.get("code") or code
             ETH_RPC_REQUESTS.labels(
-                provider=_get_provider_domain_from_w3(w3),
+                provider=_provider,
                 method=method,
                 code=code,
             ).inc()
 
             return response
 
-    return middleware
+    return wrapped
 
 
 def retryable(
@@ -91,8 +94,6 @@ def retryable(
     return middleware
 
 
-def _get_provider_domain_from_w3(w3: "Web3") -> str:
-    """Get provider domain from Web3 object"""
-
-    uri = getattr(w3.provider, "endpoint_uri", "unknown")
+def _get_domain_from_uri(uri: str) -> str:
+    """Get domain from string"""
     return uri.split("://").pop().split("/").pop(0)
