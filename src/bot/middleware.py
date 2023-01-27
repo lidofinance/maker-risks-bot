@@ -77,11 +77,11 @@ def metrics_collector(
 
 
 def construct_fallback_provider_middleware(w3: Web3, fallback: URI) -> Callable:
+    """Constructs a middleware which mimics fallback provider"""
 
-    assert isinstance(w3.provider, Web3.HTTPProvider)
-    main_endpoint = w3.provider.endpoint_uri
-    assert main_endpoint, "no endpoint URI found"
-    endpoints = (main_endpoint, fallback)
+    main_endpoint = getattr(w3.provider, "endpoint_uri")
+    if not main_endpoint:
+        raise ValueError("Web3 provider endpoint is not set")
 
     def fallback_provider(
         make_request: Callable[[RPCEndpoint, Any], RPCResponse], _: Web3
@@ -89,24 +89,23 @@ def construct_fallback_provider_middleware(w3: Web3, fallback: URI) -> Callable:
         """Constructs a middleware which measure requests parameters"""
 
         def middleware(method: RPCEndpoint, params: Any) -> RPCResponse:
-
+            switch_to_main()
             try:
                 return make_request(method, params)
             except Exception as e:  # pylint: disable=W0703
                 log.warning("Request to provider has been failed: %s", e)
-                switch_endpoint()
+                switch_to_fallback()
                 return make_request(method, params)
 
         return middleware
 
-    def switch_endpoint() -> None:
-        w3.provider.endpoint_uri = next_endpoint()  # type: ignore
-        rpc_domain = _get_provider_domain_from_w3(w3)
-        log.warning("Switching to provider %s", rpc_domain)
+    def switch_to_main() -> None:
+        w3.provider.endpoint_uri = main_endpoint  # type: ignore
+        log.debug("Switched to main provider")
 
-    def next_endpoint() -> URI:
-        idx = endpoints.index(w3.provider.endpoint_uri)  # type: ignore
-        return endpoints[(idx + 1) % len(endpoints)]
+    def switch_to_fallback() -> None:
+        w3.provider.endpoint_uri = fallback  # type: ignore
+        log.debug("Switched to fallback provider")
 
     return fallback_provider
 
