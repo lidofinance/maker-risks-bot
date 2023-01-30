@@ -1,3 +1,13 @@
+# [1.10.0](https://github.com/lidofinance/maker-risks-bot/compare/1.9.0...1.10.0) (2023-01-30)
+
+
+### Features
+
+* expose provider to RPC metrics ([3d918e8](https://github.com/lidofinance/maker-risks-bot/commit/3d918e8c408cad8e809b3bc7fb8b4b0e93102121))
+* expose provider to RPC metrics ([2004764](https://github.com/lidofinance/maker-risks-bot/commit/200476444104ecaabf3e8f5f57dbb96d9a122cd4))
+
+
+
 # [1.9.0](https://github.com/lidofinance/maker-risks-bot/compare/1.8.0...1.9.0) (2023-01-12)
 
 
@@ -129,15 +139,6 @@
 * **metrics:** add ETH RPC requests metrics ([e756df0](https://github.com/lidofinance/maker-risks-bot/commit/e756df01824f8f42fd02b42a23750370d131da3d))
 * **metrics:** add HTTP requests metrics ([016818a](https://github.com/lidofinance/maker-risks-bot/commit/016818ac80a51d3b131df5bb4938ab1cc730c657))
 * **metrics:** add misc metrics ([3e1e6f3](https://github.com/lidofinance/maker-risks-bot/commit/3e1e6f36fadfd36fa1f429dcd2d1d5ebc9685112))
-
-
-
-## [1.2.1](https://github.com/lidofinance/maker-risks-bot/compare/1.2.0...1.2.1) (2022-05-30)
-
-
-### Bug Fixes
-
-* fix wrong time interval ([5cae0cf](https://github.com/lidofinance/maker-risks-bot/commit/5cae0cf20b8e718bea0ce9132546b478bba5cb6c))
 
 
 
