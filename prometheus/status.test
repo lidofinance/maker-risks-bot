@@ -1,7 +1,7 @@
 ---
 rule_files:
   - "status.rule"
-evaluation_interval: 1m
+evaluation_interval: 5m
 tests:
   # ProcessRestarted
   - interval: 5m
@@ -23,22 +23,33 @@ tests:
                 for the last 15 minutes
 
   # StaleBotReport
-  - interval: 15m
+  - interval: 5m
     input_series:
       - series: makers_risks_processing_finished_seconds{ilk="wstETH_A"}
-        values: 900+0x8 7200+900x8
+        values: _x8 900+0x10
     alert_rule_test:
       # event should fire
-      - eval_time: 1h30m
-        alertname: StaleBotReport
+      - eval_time: 35m
+        alertname: StaleBotReportOnLaunch
         exp_alerts:
           - exp_labels:
-              ilk: wstETH_A
               severity: high
             exp_annotations:
               summary: Stale bot report detected
-              description: Last update for wstETH_A was 1h 15m 0s ago
-      - eval_time: 2h15m
+              description: >-
+                No report has been received in the last 30
+                minutes since the bot was launched
+
+      - eval_time: 1h20m
         alertname: StaleBotReport
+        exp_alerts:
+          - exp_labels:
+              severity: high
+              ilk: wstETH_A
+            exp_annotations:
+              summary: Stale bot report detected
+              description: >-
+                Last update for wstETH_A has been received
+                more than 1 hour ago
 
 # vim: set ts=2 sw=2 ft=yaml:
