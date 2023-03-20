@@ -1,7 +1,41 @@
 ### Maker collaterals monitoring bot
 
-Parse loans data from Maker protocol and calculate risks distribution
-based on collateral to loan ratio, see zones definition below.
+Prometheus exporter which parses loans data from Maker protocol and calculate risks distribution
+based on collateral to loan ratio, see [zones definition](#zones-definition) below.
+
+#### Run
+
+`docker compose`
+
+- Create a `.env` file from `.env.example` and fill in the required variables.
+- Execute command:
+```bash
+docker compose up -d bot
+```
+
+`docker`
+
+- Create a `.env` file from `.env.example` and fill in the required variables.
+- Build image:
+```bash
+docker build -t maker-risks-bot .
+```
+- Run container:
+```bash
+docker run -d -P --env-file ./.env maker-risks-bot
+```
+
+`dev`
+
+- Expose environment variables presented at `.env.example`.
+- Install dependencies via poetry:
+``` bash
+poetry install
+```
+- Execute command:
+```bash
+python src/main.py
+```
 
 #### Zones definition
 
@@ -25,18 +59,10 @@ Risk zones defined as a ranges of collateral to loan ration
 - `{}_bot_last_block_num` is the last block parser results was updated against
 - `{}_eth_latest_block_num` is the latest block available for the parser
 
-#### Configuration
-
-Configure bot via the following environment variables:
-
-- `NODE_ENDPOINT` is Infura endpoint to fetch data from Etherium node
-- `PARSE_INTERVAL` is a delay in seconds between API fetches
-- `EXPORTER_PORT` is the port to expose metrics on
-- `LOG_FORMAT` is one of {"simple", "json"}
-
 #### Visualisation
 
-Sandbox available at the moment [here](https://grafana.testnet.fi/d/STQ5KYQ7k/maker?orgId=2).
+Pre-built grafana dashboards available in the `./grafana` directory. To run locally use docker-compose file as a
+reference.
 
 ## Release flow
 
