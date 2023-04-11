@@ -17,13 +17,16 @@ from .metrics import ETH_RPC_REQUESTS, ETH_RPC_REQUESTS_DURATION
 log = logging.getLogger(__name__)
 
 
+class SynProviderError(Exception):
+    """Exception to be raised when provider returns non-applicable response"""
+
+
 def chain_id_mock(
     make_request: Callable[[RPCEndpoint, Any], RPCResponse], _: Web3
 ) -> Callable[[RPCEndpoint, Any], RPCResponse]:
     """Constructs a middleware which mock eth_chainId method call response"""
 
     def middleware(method: RPCEndpoint, params: Any) -> RPCResponse:
-
         # simple_cache_middleware supports eth_chainId method caching but
         # since we are using threading based concurrency, the middleware
         # is not applicable (at least as I can se at the moment)
@@ -110,13 +113,27 @@ def construct_fallback_provider_middleware(w3: Web3, fallback: URI) -> Callable:
     return fallback_provider
 
 
+def raise_no_transaction_receipt(
+    make_request: Callable[[RPCEndpoint, Any], RPCResponse], _: Web3
+) -> Callable[[RPCEndpoint, Any], RPCResponse]:
+    """Constructs a middleware which raises exception if transaction receipt is not found"""
+
+    def middleware(method: RPCEndpoint, params: Any) -> RPCResponse:
+        response = make_request(method, params)
+        if method == "eth_getTransactionReceipt":
+            if not response.get("result"):
+                raise SynProviderError(f"Transaction receipt for hash {params[0]} is not found")
+        return response
+
+    return middleware
+
+
 def retryable(
     make_request: Callable[[RPCEndpoint, Any], RPCResponse], _: Web3
 ) -> Callable[[RPCEndpoint, Any], RPCResponse]:
     """Constructs a middleware which retries requests to the endpoint"""
 
     def middleware(method: RPCEndpoint, params: Any) -> RPCResponse:
-
         return retry_call(
             make_request,
             (method, params),

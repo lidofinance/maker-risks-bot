@@ -10,7 +10,13 @@ from web3 import HTTPProvider, Web3
 from web3.contract import Contract
 
 from .config import FALLBACK_NODE_ENDPOINT, NODE_ENDPOINT
-from .middleware import chain_id_mock, construct_fallback_provider_middleware, metrics_collector, retryable
+from .middleware import (
+    chain_id_mock,
+    construct_fallback_provider_middleware,
+    metrics_collector,
+    raise_no_transaction_receipt,
+    retryable,
+)
 
 log = logging.getLogger(__name__)
 
@@ -26,6 +32,7 @@ VAT_ADDRESS = "0x35D1b3F3D7966A1DFe207aa4514C12a259A0492B"
 
 w3 = Web3(HTTPProvider(NODE_ENDPOINT))
 w3.middleware_onion.add(metrics_collector)
+w3.middleware_onion.add(raise_no_transaction_receipt)
 w3.middleware_onion.add(retryable)
 if FALLBACK_NODE_ENDPOINT:
     w3.middleware_onion.add(construct_fallback_provider_middleware(w3, FALLBACK_NODE_ENDPOINT))
