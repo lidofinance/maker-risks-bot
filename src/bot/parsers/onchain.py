@@ -29,14 +29,8 @@ class OnChainParser(BaseParser):
     def _cdps_batch(self, l_block: int, r_block: int) -> CdpsMap:
         results: CdpsMap = {join: set() for join in (asset.join for asset in self.assets)}
 
-        new_cdp_filter = CDP_MANAGER.events["NewCdp"].createFilter(
-            fromBlock=l_block,
-            toBlock=r_block,
-        )
-
         event: EventData
-        for event in new_cdp_filter.get_all_entries():
-
+        for event in CDP_MANAGER.events["NewCdp"].getLogs(fromBlock=l_block, toBlock=r_block):
             receipt = w3.eth.get_transaction_receipt(event["transactionHash"])
             for entry in receipt["logs"]:
                 join = entry["address"]
