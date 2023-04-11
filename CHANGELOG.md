@@ -1,3 +1,13 @@
+## [1.10.1](https://github.com/lidofinance/maker-risks-bot/compare/1.10.0...1.10.1) (2023-04-11)
+
+
+### Bug Fixes
+
+* allow retry on null transaction receipt ([47aac4f](https://github.com/lidofinance/maker-risks-bot/commit/47aac4fe89ec2e51d6f434ac0463473fc8c33041))
+* use getLogs instead of createFilter ([fdf8258](https://github.com/lidofinance/maker-risks-bot/commit/fdf825839208a9ae3675a1b22ffb41e8ee419f20))
+
+
+
 # [1.10.0](https://github.com/lidofinance/maker-risks-bot/compare/1.9.0...1.10.0) (2023-01-30)
 
 
@@ -123,22 +133,6 @@
 ### Bug Fixes
 
 * **grafana:** one more datasource fix ([#8](https://github.com/lidofinance/maker-risks-bot/issues/8)) ([#14](https://github.com/lidofinance/maker-risks-bot/issues/14)) ([2cb45ae](https://github.com/lidofinance/maker-risks-bot/commit/2cb45ae9d9ff55244ebbf8dd6586d93e98b858db))
-
-
-
-# [1.3.0](https://github.com/lidofinance/maker-risks-bot/compare/1.2.1...1.3.0) (2022-06-03)
-
-
-### Bug Fixes
-
-* replace datasource with null ([1fc7490](https://github.com/lidofinance/maker-risks-bot/commit/1fc7490d2f14252f5edcd77335db6f087549945d))
-
-
-### Features
-
-* **metrics:** add ETH RPC requests metrics ([e756df0](https://github.com/lidofinance/maker-risks-bot/commit/e756df01824f8f42fd02b42a23750370d131da3d))
-* **metrics:** add HTTP requests metrics ([016818a](https://github.com/lidofinance/maker-risks-bot/commit/016818ac80a51d3b131df5bb4938ab1cc730c657))
-* **metrics:** add misc metrics ([3e1e6f3](https://github.com/lidofinance/maker-risks-bot/commit/3e1e6f36fadfd36fa1f429dcd2d1d5ebc9685112))
 
 
 
