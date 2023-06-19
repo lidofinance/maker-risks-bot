@@ -1,3 +1,51 @@
+# This file is no longer used by semantic-release
+For the latest release notes, please see the [GitHub releases
+page](https://github.com/lidofinance/maker-risks-bot/releases).
+
+
+
+## [1.10.1](https://github.com/lidofinance/maker-risks-bot/compare/1.10.0...1.10.1) (2023-04-11)
+
+
+### Bug Fixes
+
+* allow retry on null transaction receipt ([47aac4f](https://github.com/lidofinance/maker-risks-bot/commit/47aac4fe89ec2e51d6f434ac0463473fc8c33041))
+* use getLogs instead of createFilter ([fdf8258](https://github.com/lidofinance/maker-risks-bot/commit/fdf825839208a9ae3675a1b22ffb41e8ee419f20))
+
+
+
+# [1.10.0](https://github.com/lidofinance/maker-risks-bot/compare/1.9.0...1.10.0) (2023-01-30)
+
+
+### Features
+
+* expose provider to RPC metrics ([3d918e8](https://github.com/lidofinance/maker-risks-bot/commit/3d918e8c408cad8e809b3bc7fb8b4b0e93102121))
+* expose provider to RPC metrics ([2004764](https://github.com/lidofinance/maker-risks-bot/commit/200476444104ecaabf3e8f5f57dbb96d9a122cd4))
+
+
+
+# [1.9.0](https://github.com/lidofinance/maker-risks-bot/compare/1.8.0...1.9.0) (2023-01-12)
+
+
+### Bug Fixes
+
+* add fallback for eth provider ([c5cad3d](https://github.com/lidofinance/maker-risks-bot/commit/c5cad3d9fc5fab7d93a35a7b66fba8eb832b0f6b))
+* division by zero ([0bc90b4](https://github.com/lidofinance/maker-risks-bot/commit/0bc90b4662a8b8a317aa6c047d007166fae8bf49))
+* fix main cycle's error handle ([9245d7b](https://github.com/lidofinance/maker-risks-bot/commit/9245d7bc6d90bc756fc8893ef46585cf7ad05041))
+* remove unused computation ([0d9bac6](https://github.com/lidofinance/maker-risks-bot/commit/0d9bac6b1eef5fed09ce5b6e65f8f3623924fdf4))
+* upd rules ([3f7c60d](https://github.com/lidofinance/maker-risks-bot/commit/3f7c60dc2f5af7cf656fffb762c9e4fce9b41b6e))
+* use loan value round ([bb24b88](https://github.com/lidofinance/maker-risks-bot/commit/bb24b88dfdfce666cfd2286e46dcb442179735bd))
+
+
+### Features
+
+* add retryable middleware ([a90c8f3](https://github.com/lidofinance/maker-risks-bot/commit/a90c8f352a76512cbe0a6c0c0af385907daa1608))
+* expose loans value to alerts ([56d7fff](https://github.com/lidofinance/maker-risks-bot/commit/56d7fff2e399e1d1defd3c5b91c7dd9c0d038de0))
+* rethink main loop ([b5cc629](https://github.com/lidofinance/maker-risks-bot/commit/b5cc6295b89da4aa93ee60dbb6d557337bb7e422))
+* update middleware ([5778d40](https://github.com/lidofinance/maker-risks-bot/commit/5778d40380efb254fe7d46cfd99eb067dc9a6bc3))
+
+
+
 # [1.8.0](https://github.com/lidofinance/maker-risks-bot/compare/1.7.0...1.8.0) (2022-09-29)
 
 
