@@ -1,0 +1,8 @@
+scrape_configs:
+  - job_name: "maker-risks"
+    static_configs:
+      - targets: ["bot-maker-risks:8080"]
+        labels:
+          service: 'maker-risks-bot'
+          source: 'maker-risks-bot'
+          env: 'prod'

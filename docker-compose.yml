@@ -2,7 +2,7 @@
 version: "3"
 
 services:
-  bot:
+  bot-maker-risks:
     build:
       context: .
     command: "main.py"
@@ -25,7 +25,7 @@ services:
       - 3000:3000
 
   prometheus:
-    image: prom/prometheus:v2.35.0
+    image: prom/prometheus:v2.43.1
     ports:
       - 9090:9090
     volumes:
@@ -40,10 +40,10 @@ services:
     restart: unless-stopped
 
   discord_bot:
-    image: chtotonetak/alertmanager-discord:1.1.0
-    environment:
-      DISCORD_WEBHOOK:
+    image: lidofinance/alertmanager-discord:2.6.0
+    volumes:
+      - ./alertmanager-discord:/etc/alertmanager-discord
     restart: unless-stopped
-
+    
 volumes:
   prometheus-data:
