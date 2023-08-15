@@ -3,7 +3,7 @@ groups:
   - name: MakerBot
     rules:
 
-      - alert: HighAmountCollateralsUnderRisk
+      - alert: MakerHighAmountCollateralsUnderRisk
         expr: |
           sum (maker_risks_collateral_percentage{zone=~"C|D|liquidation"})
           by (ilk) > 15.0
