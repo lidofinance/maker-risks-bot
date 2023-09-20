@@ -8,3 +8,4 @@ data/*
 !data/.gitkeep
 
 .idea
+*.code-workspace
