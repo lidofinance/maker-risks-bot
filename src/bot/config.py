@@ -67,12 +67,5 @@ if "wss://" in NODE_ENDPOINT or "wss://" in FALLBACK_NODE_ENDPOINT:
     # doesn't work in the current flow. Magic asyncio fails happen.
     raise RuntimeError("Only http[s] Web3 provider endpoint supported")
 
-if os.getenv("HTTP_REQUESTS_RETRY"):
-    HTTP_REQUESTS_RETRY = int(os.getenv("HTTP_REQUESTS_RETRY"))
-else:
-    HTTP_REQUESTS_RETRY = 3
-
-if os.getenv("HTTP_REQUESTS_DELAY"):
-    HTTP_REQUESTS_DELAY = int(os.getenv("HTTP_REQUESTS_DELAY"))
-else:
-    HTTP_REQUESTS_DELAY = 3
+HTTP_REQUESTS_RETRY = getenv("HTTP_REQUESTS_RETRY", int, default=3)
+HTTP_REQUESTS_DELAY = getenv("HTTP_REQUESTS_DELAY", int, default=3)
