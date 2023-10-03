@@ -9,3 +9,5 @@ data/*
 
 .idea
 *.code-workspace
+
+alertmanager-discord/alertmanager-discord.yml

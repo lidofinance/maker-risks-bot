@@ -3,6 +3,6 @@ scrape_configs:
     static_configs:
       - targets: ["bot-maker-risks:8080"]
         labels:
-          service: 'maker-risks-bot'
-          source: 'maker-risks-bot'
-          env: 'prod'
+          service: "maker-risks-bot"
+          source: "maker-risks-bot"
+          env: "prod"

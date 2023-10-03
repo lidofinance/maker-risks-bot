@@ -6,7 +6,11 @@ tests:
   # HighAmountCollateralsUnderRisk
   - interval: 5m
     input_series:
+      - series: maker_risks_collateral_percentage{zone="C", ilk="wstETH"}
+        values: 20+0x10
       - series: maker_risks_collateral_percentage{zone="D", ilk="wstETH"}
+        values: 20+0x10
+      - series: maker_risks_collateral_percentage{zone="liquidation", ilk="wstETH"}
         values: 20+0x10
       - series: maker_risks_collateral_value{zone="C", ilk="wstETH"}
         values: 20+0x10
@@ -20,14 +24,35 @@ tests:
         alertname: HighAmountCollateralsUnderRisk
 
       - eval_time: 30m
-        alertname: HighAmountCollateralsUnderRisk
+        alertname: MakerHighAmountCollateralsUnderRisk
         exp_alerts:
           - exp_labels:
               severity: high
               ilk: wstETH
+              groups_name: "MakerBot"
             exp_annotations:
               summary: High percent of Maker wstETH in dangerous zone 🔥
               description: It is 20.0% (42.3 wstETH) of total wstETH-collateral on Maker in risky zone!
+              inline_fields: |
+                - **📊 Share**
+                - **🏦 Amount**
+                -
+
+                - **20.0% in C+D+liquidation**
+                - **42.3 **
+                -
+
+                - 20.0% in C
+                - 20.0
+                -
+
+                - 20.0% in D
+                - 20.0
+                -
+
+                - 20.0% in liquidation
+                - 2.3
+                -
 
   # MakerCollateralsLiquidation
   - interval: 5m
@@ -42,6 +67,7 @@ tests:
               severity: high
               zone: liquidation
               ilk: wstETH
+              groups_name: "MakerBot"
             exp_annotations:
               summary: Maker positions in wstETH under liquidation has been detected!
 

@@ -61,14 +61,15 @@ def get_risks(df: pd.DataFrame, ratio_list: List[float]) -> pd.DataFrame:
 
 
 def get_distr(data) -> pd.DataFrame:
-    if not data.empty:
-        """This function calculates and returns a pivot table by risk levels"""
-        risk_distr = data.pivot_table(index="risk_rating", values=["collateral"], aggfunc=["sum"])
-        risk_distr.columns = ["ilk"]
-        risk_distr["percent"] = (risk_distr["ilk"] / risk_distr["ilk"].sum()) * 100
-        return risk_distr
-    else:
+    if data.empty:
         return pd.DataFrame()
+
+    """This function calculates and returns a pivot table by risk levels"""
+    risk_distr = data.pivot_table(index="risk_rating", values=["collateral"], aggfunc=["sum"])
+    risk_distr.columns = ["ilk"]
+    risk_distr["percent"] = (risk_distr["ilk"] / risk_distr["ilk"].sum()) * 100
+
+    return risk_distr
 
 
 def calculate_values(

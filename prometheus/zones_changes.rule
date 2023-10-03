@@ -12,12 +12,9 @@ groups:
       - record: maker_bot_collaterals:risky:percent
         expr: maker_bot_collaterals:risky / maker_bot_collaterals:total
 
-      - record: maker_bot_collaterals:percent
-        expr: maker_risks_collateral_percentage
-
       - alert: MakerHighAmountCollateralsUnderRisk
         expr: |
-          sum (maker_risks_collateral_percentage{zone=~"D"})
+          sum (maker_risks_collateral_percentage{zone="D"})
           by (ilk) > 1.0
         for: 30m
         labels:
@@ -49,12 +46,12 @@ groups:
               query | first | value | printf "%.1f" }}{{ if eq $asset "stETH" }} **${{ . }}**{{ end }}
             {{- end }}
             {{ with
-              printf "maker_bot_collaterals:percent{ilk=%q, zone=~'C|D|liquidation'}" .Labels.ilk |
+              printf "maker_risks_collateral_percentage{ilk=%q, zone=~'C|D|liquidation'}" .Labels.ilk |
               query | sortByLabel "zone" }}{{ range .
             }}
             - {{ .Value | printf "%.1f" }}% in {{ .Labels.zone }}
             - {{ with printf "maker_risks_collateral_value{ilk=%q, zone=%q}" .Labels.ilk .Labels.zone |
-            query }}{{ $v := . | first | value | printf "%.1f" }}{{ $v }} {{ $asset }}{{ end }}
+            query }}{{ $v := . | first | value | printf "%.1f" }}{{ $v }}{{ $asset }}{{ end }}
             - {{- with printf "maker_risks_collateral_value{ilk=%q, zone=%q}" .Labels.ilk
               .Labels.zone | query | first | value | printf "%.1f" }}{{ if eq $asset "stETH"
               }} ${{ . }}{{ end }}

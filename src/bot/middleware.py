@@ -11,7 +11,7 @@ from retry.api import retry_call
 from web3 import Web3
 from web3.types import RPCEndpoint, RPCResponse
 
-from .consts import HTTP_REQUESTS_DELAY, HTTP_REQUESTS_RETRY
+from .config import HTTP_REQUESTS_DELAY, HTTP_REQUESTS_RETRY
 from .metrics import ETH_RPC_REQUESTS, ETH_RPC_REQUESTS_DURATION
 
 log = logging.getLogger(__name__)
