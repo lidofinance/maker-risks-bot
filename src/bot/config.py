@@ -66,3 +66,6 @@ if "wss://" in NODE_ENDPOINT or "wss://" in FALLBACK_NODE_ENDPOINT:
     # WSS provider seems to be broken in python 3.10 and
     # doesn't work in the current flow. Magic asyncio fails happen.
     raise RuntimeError("Only http[s] Web3 provider endpoint supported")
+
+HTTP_REQUESTS_RETRY = getenv("HTTP_REQUESTS_RETRY", int, default=3)
+HTTP_REQUESTS_DELAY = getenv("HTTP_REQUESTS_DELAY", int, default=3)

@@ -8,3 +8,6 @@ data/*
 !data/.gitkeep
 
 .idea
+*.code-workspace
+
+alertmanager-discord/alertmanager-discord.yml

@@ -3,13 +3,23 @@ groups:
   - name: MakerBot
     rules:
 
-      - alert: HighAmountCollateralsUnderRisk
+      - record: maker_bot_collaterals:total
+        expr: sum (maker_risks_collateral_value)
+
+      - record: maker_bot_collaterals:risky
+        expr: sum (maker_risks_collateral_value{zone=~"C|D|liquidation"})
+
+      - record: maker_bot_collaterals:risky:percent
+        expr: maker_bot_collaterals:risky / maker_bot_collaterals:total
+
+      - alert: MakerHighAmountCollateralsUnderRisk
         expr: |
-          sum (maker_risks_collateral_percentage{zone=~"C|D|liquidation"})
-          by (ilk) > 15.0
+          sum (maker_risks_collateral_percentage{zone="D"})
+          by (ilk) > 1.0
         for: 30m
         labels:
           severity: high
+          groups_name: "MakerBot"
         annotations:
           summary: High percent of Maker {{ .Labels.ilk }} in dangerous zone 🔥
           description: >-
@@ -19,11 +29,39 @@ groups:
             {{- end }}
             {{ .Labels.ilk }})
             of total {{ .Labels.ilk }}-collateral on Maker in risky zone!
+          inline_fields: &high-amount-under-risk-table |-
+            {{- $amount :=
+              printf "sum(maker_risks_collateral_value{zone=~'C|D|liquidation',ilk=%q})" .Labels.ilk | query |
+              first | value | printf "%.1f" -}}
+
+            {{- $asset := .Labels.pair | reReplaceAll `(\w+)-(\w+)-?(\w)*` "$1" -}}
+
+            - **📊 Share**
+            - **🏦 Amount**
+            - {{- if eq $asset "stETH" }} **💵 USD value**{{ end }}
+
+            - **{{ $value | printf "%.1f" }}% in C+D+liquidation**
+            - **{{ $amount }} {{ $asset }}**
+            - {{- with printf "sum (maker_risks_collateral_value{ilk=%q, zone=~'C|D|liquidation'})" .Labels.ilk |
+              query | first | value | printf "%.1f" }}{{ if eq $asset "stETH" }} **${{ . }}**{{ end }}
+            {{- end }}
+            {{ with
+              printf "maker_risks_collateral_percentage{ilk=%q, zone=~'C|D|liquidation'}" .Labels.ilk |
+              query | sortByLabel "zone" }}{{ range .
+            }}
+            - {{ .Value | printf "%.1f" }}% in {{ .Labels.zone }}
+            - {{ with printf "maker_risks_collateral_value{ilk=%q, zone=%q}" .Labels.ilk .Labels.zone |
+            query }}{{ $v := . | first | value | printf "%.1f" }}{{ $v }}{{ $asset }}{{ end }}
+            - {{- with printf "maker_risks_collateral_value{ilk=%q, zone=%q}" .Labels.ilk
+              .Labels.zone | query | first | value | printf "%.1f" }}{{ if eq $asset "stETH"
+              }} ${{ . }}{{ end }}
+            {{ end }}{{ end }}{{ end }}
 
       - alert: MakerCollateralsLiquidation
         expr: maker_risks_collateral_percentage{zone="liquidation"} > 0
         labels:
           severity: high
+          groups_name: "MakerBot"
         annotations:
           summary: >-
             Maker positions in {{ .Labels.ilk }} under liquidation
