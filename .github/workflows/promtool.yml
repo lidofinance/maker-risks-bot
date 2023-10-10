@@ -29,9 +29,9 @@ jobs:
         run: ./prometheus-2.47.1.linux-amd64/promtool check config prometheus/prometheus.yml
 
       - name: Run rules check
-        run: promtool check rules prometheus/*.rule
+        run: ./prometheus-2.47.1.linux-amd64/promtool check rules prometheus/*.rule
         if: ${{ always() }}
 
       - name: Run rules tests
-        run: promtool test rules prometheus/*.test
+        run: ./prometheus-2.47.1.linux-amd64/promtool test rules prometheus/*.test
         if: ${{ always() }}
