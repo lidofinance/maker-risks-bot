@@ -16,12 +16,13 @@ from .metrics import (
     BOT_LAST_BLOCK,
     COLLATERALS_ZONES_PERCENT,
     COLLATERALS_ZONES_VALUE,
+    COLLATERALS_ZONES_CURRENCY,
     ETH_LATEST_BLOCK,
     FETCH_DURATION,
     PROCESSING_COMPLETED,
 )
 from .parsers import OnChainParser
-
+from .middleware import wstethLastPrice, ethLastPrice, stETHLastPrice
 
 class MakerBot:  # pylint: disable=too-few-public-methods
     """The main class of the Maker bot"""
@@ -35,6 +36,11 @@ class MakerBot:  # pylint: disable=too-few-public-methods
             WSTETH_B,
             STECRV_A,
         )
+        self.prices = {
+            "wstETH_A": 0,
+            "wstETH_B": 0,
+            "steCRV_A": 0
+        }
 
         self.parser = OnChainParser(assets=self.assets)  # type: ignore
 
@@ -42,6 +48,16 @@ class MakerBot:  # pylint: disable=too-few-public-methods
         """Main loop of bot"""
 
         while True:
+            try:
+                # The approximate price of the coin on this block
+                self.prices["wstETH_A"] = wstethLastPrice()
+                self.prices["wstETH_B"] = self.prices["wstETH_A"]
+                self.prices["steCRV_A"] = ethLastPrice() * 0.5 + stETHLastPrice() * 0.5
+            except Exception as ex:  # pylint: disable=broad-except
+                APP_ERRORS.labels("fetchingPrice").inc()
+                self._on_error("Fetching price data has been failed", ex)
+                continue
+
             try:
                 results = self._run()
                 # set block number metric for status test
@@ -83,6 +99,10 @@ class MakerBot:  # pylint: disable=too-few-public-methods
             values = calculate_values(df, asset, self.parser)
 
         for zone, stat in values.items():
+            COLLATERALS_ZONES_CURRENCY.labels(
+                asset.symbol,
+                zone,
+            ).set(self.prices[asset.symbol] * stat["ilk"])
             COLLATERALS_ZONES_VALUE.labels(
                 asset.symbol,
                 zone,

@@ -18,6 +18,13 @@ COLLATERALS_ZONES_PERCENT = Gauge(
     "Maker collaterals percentage distribution",
     ("ilk", "zone"),
 )
+
+COLLATERALS_ZONES_CURRENCY = Gauge(
+    f"{PREFIX}_collateral_currency",
+    "Maker collaterals loans currency distribution",
+    ("ilk", "zone"),
+)
+
 COLLATERALS_ZONES_VALUE = Gauge(
     f"{PREFIX}_collateral_value",
     "Maker collaterals loans values distribution",

@@ -38,12 +38,12 @@ groups:
 
             - **📊 Share**
             - **🏦 Amount**
-            - {{- if eq $asset "stETH" }} **💵 USD value**{{ end }}
+            - {{- if ne $asset "steCRV_A" }} **💵 USD value**{{ end }}
 
             - **{{ $value | printf "%.1f" }}% in C+D+liquidation**
             - **{{ $amount }} {{ $asset }}**
-            - {{- with printf "sum (maker_risks_collateral_value{ilk=%q, zone=~'C|D|liquidation'})" .Labels.ilk |
-              query | first | value | printf "%.1f" }}{{ if eq $asset "stETH" }} **${{ . }}**{{ end }}
+            - {{- with printf "sum (maker_risks_collateral_currency{ilk=%q, zone=~'C|D|liquidation'})" .Labels.ilk |
+              query | first | value | printf "%.1f" }}{{ if ne $asset "steCRV_A" }} **${{ . }}**{{ end }}
             {{- end }}
             {{ with
               printf "maker_risks_collateral_percentage{ilk=%q, zone=~'C|D|liquidation'}" .Labels.ilk |
@@ -52,8 +52,8 @@ groups:
             - {{ .Value | printf "%.1f" }}% in {{ .Labels.zone }}
             - {{ with printf "maker_risks_collateral_value{ilk=%q, zone=%q}" .Labels.ilk .Labels.zone |
             query }}{{ $v := . | first | value | printf "%.1f" }}{{ $v }}{{ $asset }}{{ end }}
-            - {{- with printf "maker_risks_collateral_value{ilk=%q, zone=%q}" .Labels.ilk
-              .Labels.zone | query | first | value | printf "%.1f" }}{{ if eq $asset "stETH"
+            - {{- with printf "maker_risks_collateral_currency{ilk=%q, zone=%q}" .Labels.ilk
+              .Labels.zone | query | first | value | printf "%.1f" }}{{ if ne $asset "steCRV_A"
               }} ${{ . }}{{ end }}
             {{ end }}{{ end }}{{ end }}
 
