@@ -39,7 +39,7 @@ class MakerBot:  # pylint: disable=too-few-public-methods
             STECRV_A,
         )
 
-        self.prices = defaultdict(lambda: 0, {key.symbol: 0 for key in self.assets})
+        self.prices = defaultdict(lambda: 0)
 
         self.parser = OnChainParser(assets=self.assets)  # type: ignore
 
