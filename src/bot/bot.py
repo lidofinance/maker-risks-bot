@@ -2,9 +2,9 @@
 
 import logging
 import time
+from collections import defaultdict
 from pprint import PrettyPrinter
 from typing import Iterable
-from collections import defaultdict
 
 import pandas as pd
 
@@ -15,15 +15,15 @@ from .ilks import STECRV_A, WSTETH_A, WSTETH_B, MakerIlk
 from .metrics import (
     APP_ERRORS,
     BOT_LAST_BLOCK,
+    COLLATERALS_ZONES_CURRENCY,
     COLLATERALS_ZONES_PERCENT,
     COLLATERALS_ZONES_VALUE,
-    COLLATERALS_ZONES_CURRENCY,
     ETH_LATEST_BLOCK,
     FETCH_DURATION,
     PROCESSING_COMPLETED,
 )
 from .parsers import OnChainParser
-from .prices import Wsteth_Last_Price, Eth_Last_Price, StETH_Last_Price
+from .prices import Eth_Last_Price, StETH_Last_Price, Wsteth_Last_Price
 
 
 class MakerBot:  # pylint: disable=too-few-public-methods
