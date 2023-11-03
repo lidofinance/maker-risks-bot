@@ -18,6 +18,12 @@ tests:
         values: 20+0x10
       - series: maker_risks_collateral_value{zone="liquidation", ilk="wstETH"}
         values: 2.31415926+0x10
+      - series: maker_risks_collateral_currency{zone="C", ilk="wstETH"}
+        values: 40+0x10
+      - series: maker_risks_collateral_currency{zone="D", ilk="wstETH"}
+        values: 40+0x10
+      - series: maker_risks_collateral_currency{zone="liquidation", ilk="wstETH"}
+        values: 23.1415926+0x10
     alert_rule_test:
       # no fire
       - eval_time: 5m
@@ -36,23 +42,23 @@ tests:
               inline_fields: |
                 - **📊 Share**
                 - **🏦 Amount**
-                -
+                - **💵 USD value**
 
                 - **20.0% in C+D+liquidation**
                 - **42.3 **
-                -
+                - **$103.1**
 
                 - 20.0% in C
                 - 20.0
-                -
+                - $40.0
 
                 - 20.0% in D
                 - 20.0
-                -
+                - $40.0
 
                 - 20.0% in liquidation
                 - 2.3
-                -
+                - $23.1
 
   # MakerCollateralsLiquidation
   - interval: 5m

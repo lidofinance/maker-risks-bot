@@ -14,9 +14,6 @@ from web3.types import RPCEndpoint, RPCResponse
 from .config import HTTP_REQUESTS_DELAY, HTTP_REQUESTS_RETRY
 from .metrics import ETH_RPC_REQUESTS, ETH_RPC_REQUESTS_DURATION
 
-from dataclasses import asdict, dataclass
-import requests
-
 log = logging.getLogger(__name__)
 
 
@@ -152,37 +149,3 @@ def _get_provider_domain_from_w3(w3: Web3) -> str:
 
     uri = getattr(w3.provider, "endpoint_uri", "unknown")
     return uri.split("://")[-1].split("/")[0].split(":")[0]
-
-@dataclass
-class CoinGeckoPriceRequestParams:
-    """Payload for request to /simple/price
-    @see https://www.coingecko.com/en/api/documentation for details."""
-
-    ids: str
-    vs_currencies: str = "usd"
-    include_market_cap: str = "false"
-    include_24hr_vol: str = "false"
-    include_24hr_change: str = "false"
-    include_last_updated_at: str = "false"
-
-
-def _crypto_to_usd(currency: str) -> float:
-
-    payload = CoinGeckoPriceRequestParams(ids=currency)
-    r = requests.get("https://api.coingecko.com/api/v3/simple/price", params=asdict(payload), timeout=5)
-    r.raise_for_status()
-    return r.json()[currency]["usd"]
-
-def wstethLastPrice() -> float:
-    """Current price of wstETH"""
-
-    return _crypto_to_usd("wrapped-steth")
-
-def ethLastPrice() -> float:
-    """Current price of ETH"""
-
-    return _crypto_to_usd("ethereum")
-
-def stETHLastPrice() -> float:
-    """Current price of stETH"""
-    return _crypto_to_usd("staked-ether")

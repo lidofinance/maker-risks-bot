@@ -4,6 +4,7 @@ import logging
 import time
 from pprint import PrettyPrinter
 from typing import Iterable
+from collections import defaultdict
 
 import pandas as pd
 
@@ -22,7 +23,8 @@ from .metrics import (
     PROCESSING_COMPLETED,
 )
 from .parsers import OnChainParser
-from .middleware import wstethLastPrice, ethLastPrice, stETHLastPrice
+from .prices import Wsteth_Last_Price, Eth_Last_Price, StETH_Last_Price
+
 
 class MakerBot:  # pylint: disable=too-few-public-methods
     """The main class of the Maker bot"""
@@ -36,11 +38,8 @@ class MakerBot:  # pylint: disable=too-few-public-methods
             WSTETH_B,
             STECRV_A,
         )
-        self.prices = {
-            "wstETH_A": 0,
-            "wstETH_B": 0,
-            "steCRV_A": 0
-        }
+
+        self.prices = defaultdict(lambda: 0, {key.symbol: 0 for key in self.assets})
 
         self.parser = OnChainParser(assets=self.assets)  # type: ignore
 
@@ -50,9 +49,9 @@ class MakerBot:  # pylint: disable=too-few-public-methods
         while True:
             try:
                 # The approximate price of the coin on this block
-                self.prices["wstETH_A"] = wstethLastPrice()
+                self.prices["wstETH_A"] = Wsteth_Last_Price()
                 self.prices["wstETH_B"] = self.prices["wstETH_A"]
-                self.prices["steCRV_A"] = ethLastPrice() * 0.5 + stETHLastPrice() * 0.5
+                self.prices["steCRV_A"] = Eth_Last_Price() * 0.5 + StETH_Last_Price() * 0.5
             except Exception as ex:  # pylint: disable=broad-except
                 APP_ERRORS.labels("fetchingPrice").inc()
                 self._on_error("Fetching price data has been failed", ex)
