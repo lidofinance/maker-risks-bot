@@ -4,6 +4,7 @@ import logging
 import time
 from pprint import PrettyPrinter
 from typing import Iterable
+from collections import defaultdict
 
 import pandas as pd
 
@@ -16,11 +17,13 @@ from .metrics import (
     BOT_LAST_BLOCK,
     COLLATERALS_ZONES_PERCENT,
     COLLATERALS_ZONES_VALUE,
+    COLLATERALS_ZONES_CURRENCY,
     ETH_LATEST_BLOCK,
     FETCH_DURATION,
     PROCESSING_COMPLETED,
 )
 from .parsers import OnChainParser
+from .prices import Wsteth_Last_Price, Eth_Last_Price, StETH_Last_Price
 
 
 class MakerBot:  # pylint: disable=too-few-public-methods
@@ -36,12 +39,24 @@ class MakerBot:  # pylint: disable=too-few-public-methods
             STECRV_A,
         )
 
+        self.prices = defaultdict(lambda: 0)
+
         self.parser = OnChainParser(assets=self.assets)  # type: ignore
 
     def run(self) -> None:
         """Main loop of bot"""
 
         while True:
+            try:
+                # The approximate price of the coin on this block
+                self.prices["wstETH_A"] = Wsteth_Last_Price()
+                self.prices["wstETH_B"] = self.prices["wstETH_A"]
+                self.prices["steCRV_A"] = Eth_Last_Price() * 0.5 + StETH_Last_Price() * 0.5
+            except Exception as ex:  # pylint: disable=broad-except
+                APP_ERRORS.labels("fetchingPrice").inc()
+                self._on_error("Fetching price data has been failed", ex)
+                continue
+
             try:
                 results = self._run()
                 # set block number metric for status test
@@ -83,6 +98,10 @@ class MakerBot:  # pylint: disable=too-few-public-methods
             values = calculate_values(df, asset, self.parser)
 
         for zone, stat in values.items():
+            COLLATERALS_ZONES_CURRENCY.labels(
+                asset.symbol,
+                zone,
+            ).set(self.prices[asset.symbol] * stat["ilk"])
             COLLATERALS_ZONES_VALUE.labels(
                 asset.symbol,
                 zone,
